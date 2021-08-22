@@ -26,16 +26,16 @@ jobs:
           workflow: build.yml
           workflow_conclusion: completed
           branch: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Download Google Drive Credentials
+        run: |
+          cd RemoteFileManagerFiles
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
       
       - name: Download Encoded Footage
         run: |
           cd RemoteFileManagerFiles
           ./RemoteFileManager.exe down ../Encoding/Output "${{matrix.clip}}-\d{1,}\.mkv|${{matrix.clip}}-audio\.wav"
-      
-      - name: Download Google Drive Credentials
-        run: |
-          cd RemoteFileManagerFiles
-          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
       
       - name: Run MKV Merge
         run: |
