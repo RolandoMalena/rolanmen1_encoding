@@ -42,9 +42,9 @@ jobs:
           cd ./Encoding/Output
           $filenames = $($(Get-ChildItem $(pwd) -Filter *.mkv) -Join ' ')
           New-Item -Path 'Final' -ItemType Directory
-          ../mkvmerge.exe -o Final/${{matrix.clip}}.mkv "./${{matrix.clip}}-audio.wav" '(' $filenames ')'
+          ../mkvmerge.exe -o Final/${{matrix.clip}}.mkv '(' "./${{matrix.clip}}-audio.wav" $filenames ')'
 
-      - name: Upload Normalized Audio
+      - name: Upload Final Output
         run: |
           cd RemoteFileManagerFiles
           ./RemoteFileManager.exe up ../Encoding/Output/Final
