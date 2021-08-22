@@ -3,8 +3,11 @@ name: Encode
 on:
   workflow_run:
     workflows: ["Build"]
-    branches: ['*']
-    types: [completed]
+    branches: 
+    - '*'
+    types: 
+    - requested
+    - completed
 
   workflow_dispatch:
 
@@ -34,7 +37,6 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: master
       
       - name: Download Google Drive Credentials
         run: |
@@ -89,7 +91,6 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: master
       
       - name: Download Google Drive Credentials
         run: |
