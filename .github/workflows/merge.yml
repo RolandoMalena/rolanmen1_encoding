@@ -25,7 +25,7 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: master
+          branch: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download Encoded Footage
         run: |
