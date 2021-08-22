@@ -6,11 +6,10 @@ on:
     workflows: ["Encode"]
     types: [completed]
 
-
 jobs:
   merge_files:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
         clip: ["clip"]
