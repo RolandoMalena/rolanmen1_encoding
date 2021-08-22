@@ -17,6 +17,8 @@ jobs:
         segment: [1, 2]
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${GITHUB_REF}
       
       - name: Download ScriptSegmentation Files
         uses: dawidd6/action-download-artifact@v2
