@@ -6,8 +6,14 @@ on:
     workflows: ["Build"]
     types: [completed]
 
-
 jobs:
+  show_metadata:
+    runs-on: windows-2019
+    steps:
+      - name: Display Triggering Workflow Variables
+        run: |
+          echo "${{github.event.workflow_run.head_branch}}"
+          echo "${{github.event.workflow_run.conclusion}}"
   encode_footage:
     runs-on: windows-2019
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
