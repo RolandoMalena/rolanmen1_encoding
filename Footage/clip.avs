@@ -5,7 +5,7 @@ global targetHeight = 2160
 #Load Plugins and/or Scripts
 LoadPlugin("nnedi3.dll")
 
-AVISource("sample.avi")
+AVISource("sample.avi").Trim(0,10)
 Crop(17, 0, -13, 0)
 Upscale()
 

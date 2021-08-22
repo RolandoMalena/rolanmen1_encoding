@@ -3,9 +3,9 @@ name: Encode
 on:
   workflow_run:
     workflows: ["Build"]
-    branches: [main]
     types: 
-      - completed
+    - requested
+    - completed
 
   workflow_dispatch:
 
@@ -27,7 +27,6 @@ jobs:
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: master
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -36,7 +35,6 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: master
       
       - name: Download Google Drive Credentials
         run: |
@@ -91,7 +89,6 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: master
       
       - name: Download Google Drive Credentials
         run: |
