@@ -27,7 +27,6 @@ jobs:
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: master
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
