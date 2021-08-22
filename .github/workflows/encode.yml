@@ -1,0 +1,136 @@
+name: Encode
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    branches: [main]
+    types: 
+      - completed
+
+  workflow_dispatch:
+
+jobs:
+  encode_footage:
+    runs-on: windows-2019
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    strategy:
+      matrix:
+        clip: ["clip"]
+        segment: [1, 2]
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Download ScriptSegmentation Files
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: ScriptSegmentationFiles
+          path: 'ScriptSegmentationFiles'
+          workflow: build.yml
+          workflow_conclusion: completed
+          branch: master
+        
+      - name: Download RemoteFileManager Files
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: RemoteFileManagerFiles
+          path: 'RemoteFileManagerFiles'
+          workflow: build.yml
+          workflow_conclusion: completed
+          branch: master
+      
+      - name: Download Google Drive Credentials
+        run: |
+          cd RemoteFileManagerFiles
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "$(GOOGLE_DRIVE_SECRET)"
+      
+      - name: Install Avisynth+
+        run: |
+          Move-Item -Path '.\AviSynth\ProgramFiles' -Destination 'C:\Program Files (x86)\AviSynth+' -force
+          Move-Item -Path '.\AviSynth\System32\*' -Destination 'C:\Windows\System32' -force
+          .\AviSynth\registry.bat
+      
+      - name: Install Lagarith Codec
+        run: |
+          cd ./Lagarith
+          ./install.bat
+
+      - name: Prepare input.avs file
+        run: |
+          cd ./Encoding
+          Set-Content input.avs 'Import("../Footage/${{matrix.clip}}.avs")'
+
+      - name: Run Script Segmentation app
+        run: |
+          cd ScriptSegmentationFiles
+          ./ScriptSegmentation.exe 2 ../Encoding/final.avs ../Encoding/Segments
+
+      - name: Encode Footage
+        run: |
+          cd ./Encoding
+          New-Item -Path 'Output' -ItemType Directory
+          ./x264.exe --qp 10 -b 0 --input-range tv --range tv --output-csp i420 --colormatrix bt709 --output ./Output/${{matrix.clip}}-${{matrix.segment}}.mkv ../Encoding/Segments/${{matrix.segment}}.avs --thread-input --output-depth 8
+
+      - name: Upload Encoded Footage
+        run: |
+          cd RemoteFileManagerFiles
+          ./RemoteFileManager.exe up ../Encoding/Output
+
+  normalize_audio:
+    runs-on: windows-2019
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    strategy:
+      matrix:
+        clip: ["clip"]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download RemoteFileManager Files
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: RemoteFileManagerFiles
+          path: 'RemoteFileManagerFiles'
+          workflow: build.yml
+          workflow_conclusion: completed
+          branch: master
+      
+      - name: Download Google Drive Credentials
+        run: |
+          cd RemoteFileManagerFiles
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "$(GOOGLE_DRIVE_SECRET)"
+
+      - name: Install Avisynth+
+        run: |
+          Move-Item -Path '.\AviSynth\ProgramFiles' -Destination 'C:\Program Files (x86)\AviSynth+' -force
+          Move-Item -Path '.\AviSynth\System32\*' -Destination 'C:\Windows\System32' -force
+          .\AviSynth\registry.bat
+      
+      - name: Install Lagarith Codec
+        run: |
+          cd ./Lagarith
+          ./install.bat
+      
+      - name: Extract FFmpeg
+        run: |
+          cd ./Encoding
+          7z e ffmpeg.7z.001 -y
+
+      - name: Prepare input.avs file
+        run: |
+          cd ./Encoding
+          Set-Content input.avs 'Import("../Footage/${{matrix.clip}}.avs")'
+      
+      - name: Extract Audio File
+        run: |
+          cd ./Encoding
+          New-Item -Path 'Output' -ItemType Directory
+          ./ffmpeg.exe -y -i ./final.avs ./Output/${{matrix.clip}}-audio.wav
+      
+      - name: Run WaveGain
+        run: |
+          cd ./Encoding
+          ./WaveGain.exe -y ./Output/${{matrix.clip}}-audio.wav
+      
+      - name: Upload Normalized Audio
+        run: |
+          cd RemoteFileManagerFiles
+          ./RemoteFileManager.exe up ../Encoding/Output

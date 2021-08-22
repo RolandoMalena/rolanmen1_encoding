@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build_apps:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core SDK 3.1
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: '3.1.x'
+      
+      - name: Restore App Dependencies
+        run: |
+          cd ./Apps
+          dotnet restore
+
+      - name: Build Apps
+        run: |
+          cd ./Apps
+          dotnet build --configuration Release --no-restore
+      
+      - name: 'Upload ScriptSegmentation Files'
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: 'ScriptSegmentationFiles'
+          path: 'Apps/ScriptSegmentation/bin/Release/netcoreapp3.1/*'
+          retention-days: 30
+      
+      - name: 'Upload RemoteFileManager Files'
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: 'RemoteFileManagerFiles'
+          path: 'Apps/RemoteFileManager/bin/Release/netcoreapp3.1/*'
+          retention-days: 30

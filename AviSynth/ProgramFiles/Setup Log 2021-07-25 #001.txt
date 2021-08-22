@@ -1,0 +1,259 @@
+﻿2021-07-25 15:52:29.668   Log opened. (Time zone: UTC-07:00)
+2021-07-25 15:52:29.668   Setup version: Inno Setup version 5.6.1 (u)
+2021-07-25 15:52:29.668   Original Setup EXE: C:\Users\Test User\Desktop\AviSynthPlus_3.7.0_20210111.exe
+2021-07-25 15:52:29.668   Setup command line: /SL5="$202EE,8069553,168448,C:\Users\Test User\Desktop\AviSynthPlus_3.7.0_20210111.exe" /SPAWNWND=$202B2 /NOTIFYWND=$50226 
+2021-07-25 15:52:29.668   Windows version: 10.0.19041  (NT platform: Yes)
+2021-07-25 15:52:29.668   64-bit Windows: Yes
+2021-07-25 15:52:29.668   Processor architecture: x64
+2021-07-25 15:52:29.668   User privileges: Administrative
+2021-07-25 15:52:29.668   64-bit install mode: No
+2021-07-25 15:52:30.465   Created temporary directory: C:\Users\TESTUS~1\AppData\Local\Temp\is-45RN1.tmp
+2021-07-25 15:52:50.043   Installing components: main,main\avs64
+2021-07-25 15:52:50.043   Legacy x86 AviSynth installed: No
+2021-07-25 15:52:50.043   Legacy x64 AviSynth installed: No
+2021-07-25 15:52:50.043   AviSynth+ installed: No
+2021-07-25 15:52:50.043   RegDirectories:
+2021-07-25 15:52:50.043   --- Program: 
+2021-07-25 15:52:50.043   --- Plugins: 
+2021-07-25 15:52:50.043   --- Plugins+: 
+2021-07-25 15:52:50.043   --- Plugins64: 
+2021-07-25 15:52:50.043   --- Plugins64+: 
+2021-07-25 15:52:50.043   AvsPlusDirectories:
+2021-07-25 15:52:50.043   --- Program: C:\Program Files (x86)\AviSynth+
+2021-07-25 15:52:50.043   --- Plugins: C:\Program Files (x86)\AviSynth+\plugins
+2021-07-25 15:52:50.043   --- Plugins+: C:\Program Files (x86)\AviSynth+\plugins+
+2021-07-25 15:52:50.043   --- Plugins64: C:\Program Files (x86)\AviSynth+\plugins64
+2021-07-25 15:52:50.043   --- Plugins64+: C:\Program Files (x86)\AviSynth+\plugins64+
+2021-07-25 15:52:50.043   Starting the installation process.
+2021-07-25 15:52:50.043   Creating directory: C:\Program Files (x86)\AviSynth+
+2021-07-25 15:52:50.043   Creating directory: C:\Program Files (x86)\AviSynth+\plugins64
+2021-07-25 15:52:50.043   Creating directory: C:\Program Files (x86)\AviSynth+\plugins64+
+2021-07-25 15:52:50.043   Directory for uninstall files: C:\Program Files (x86)\AviSynth+
+2021-07-25 15:52:50.043   Creating new uninstall log: C:\Program Files (x86)\AviSynth+\unins000.dat
+2021-07-25 15:52:50.075   -- File entry --
+2021-07-25 15:52:50.075   Dest filename: C:\Program Files (x86)\AviSynth+\unins000.exe
+2021-07-25 15:52:50.075   Time stamp of our file: 2021-07-25 15:52:29.247
+2021-07-25 15:52:50.075   Installing the file.
+2021-07-25 15:52:50.090   Uninstaller requires administrator: Yes
+2021-07-25 15:52:50.106   Successfully installed the file.
+2021-07-25 15:52:50.106   -- File entry --
+2021-07-25 15:52:50.106   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-cs.txt
+2021-07-25 15:52:50.106   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.106   Installing the file.
+2021-07-25 15:52:50.106   Creating directory: C:\Program Files (x86)\AviSynth+\License
+2021-07-25 15:52:50.106   Successfully installed the file.
+2021-07-25 15:52:50.106   -- File entry --
+2021-07-25 15:52:50.106   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-de.txt
+2021-07-25 15:52:50.106   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.106   Installing the file.
+2021-07-25 15:52:50.106   Successfully installed the file.
+2021-07-25 15:52:50.106   -- File entry --
+2021-07-25 15:52:50.122   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-el.txt
+2021-07-25 15:52:50.122   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.122   Installing the file.
+2021-07-25 15:52:50.122   Successfully installed the file.
+2021-07-25 15:52:50.122   -- File entry --
+2021-07-25 15:52:50.122   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-fr.txt
+2021-07-25 15:52:50.122   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.122   Installing the file.
+2021-07-25 15:52:50.122   Successfully installed the file.
+2021-07-25 15:52:50.122   -- File entry --
+2021-07-25 15:52:50.122   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-it.txt
+2021-07-25 15:52:50.122   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.122   Installing the file.
+2021-07-25 15:52:50.122   Successfully installed the file.
+2021-07-25 15:52:50.122   -- File entry --
+2021-07-25 15:52:50.122   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-ja.txt
+2021-07-25 15:52:50.122   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.122   Installing the file.
+2021-07-25 15:52:50.122   Successfully installed the file.
+2021-07-25 15:52:50.122   -- File entry --
+2021-07-25 15:52:50.122   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-pl.txt
+2021-07-25 15:52:50.122   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.122   Installing the file.
+2021-07-25 15:52:50.137   Successfully installed the file.
+2021-07-25 15:52:50.137   -- File entry --
+2021-07-25 15:52:50.137   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-pt.txt
+2021-07-25 15:52:50.137   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.137   Installing the file.
+2021-07-25 15:52:50.137   Successfully installed the file.
+2021-07-25 15:52:50.137   -- File entry --
+2021-07-25 15:52:50.137   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-pt_br.txt
+2021-07-25 15:52:50.137   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.137   Installing the file.
+2021-07-25 15:52:50.137   Successfully installed the file.
+2021-07-25 15:52:50.137   -- File entry --
+2021-07-25 15:52:50.137   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl-ru.txt
+2021-07-25 15:52:50.137   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.137   Installing the file.
+2021-07-25 15:52:50.137   Successfully installed the file.
+2021-07-25 15:52:50.137   -- File entry --
+2021-07-25 15:52:50.137   Dest filename: C:\Program Files (x86)\AviSynth+\License\gpl.txt
+2021-07-25 15:52:50.137   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.137   Installing the file.
+2021-07-25 15:52:50.153   Successfully installed the file.
+2021-07-25 15:52:50.153   -- File entry --
+2021-07-25 15:52:50.153   Dest filename: C:\Program Files (x86)\AviSynth+\License\lgpl_for_used_libs.txt
+2021-07-25 15:52:50.153   Time stamp of our file: 2021-01-11 16:27:14.000
+2021-07-25 15:52:50.153   Installing the file.
+2021-07-25 15:52:50.153   Successfully installed the file.
+2021-07-25 15:52:50.153   -- File entry --
+2021-07-25 15:52:50.153   Dest filename: C:\Program Files (x86)\AviSynth+\readme.txt
+2021-07-25 15:52:50.153   Time stamp of our file: 2021-01-11 16:27:04.000
+2021-07-25 15:52:50.153   Installing the file.
+2021-07-25 15:52:50.153   Successfully installed the file.
+2021-07-25 15:52:50.153   -- File entry --
+2021-07-25 15:52:50.153   Dest filename: C:\Program Files (x86)\AviSynth+\readme_history.txt
+2021-07-25 15:52:50.153   Time stamp of our file: 2021-01-11 16:27:04.000
+2021-07-25 15:52:50.153   Installing the file.
+2021-07-25 15:52:50.168   Successfully installed the file.
+2021-07-25 15:52:50.168   -- File entry --
+2021-07-25 15:52:50.168   Dest filename: C:\Windows\system32\AviSynth.dll
+2021-07-25 15:52:50.168   Non-default bitness: 64-bit
+2021-07-25 15:52:50.168   Time stamp of our file: 2021-01-11 16:47:06.000
+2021-07-25 15:52:50.168   Installing the file.
+2021-07-25 15:52:50.481   Successfully installed the file.
+2021-07-25 15:52:50.481   -- File entry --
+2021-07-25 15:52:50.481   Dest filename: C:\Windows\system32\DevIL.dll
+2021-07-25 15:52:50.481   Non-default bitness: 64-bit
+2021-07-25 15:52:50.481   Time stamp of our file: 2021-01-11 16:47:06.000
+2021-07-25 15:52:50.481   Installing the file.
+2021-07-25 15:52:50.559   Successfully installed the file.
+2021-07-25 15:52:50.559   -- File entry --
+2021-07-25 15:52:50.559   Dest filename: C:\Program Files (x86)\AviSynth+\plugins64+\ConvertStacked.dll
+2021-07-25 15:52:50.559   Time stamp of our file: 2021-01-11 16:47:06.000
+2021-07-25 15:52:50.559   Installing the file.
+2021-07-25 15:52:50.559   Successfully installed the file.
+2021-07-25 15:52:50.559   -- File entry --
+2021-07-25 15:52:50.559   Dest filename: C:\Program Files (x86)\AviSynth+\plugins64+\DirectShowSource.dll
+2021-07-25 15:52:50.559   Time stamp of our file: 2021-01-11 16:47:06.000
+2021-07-25 15:52:50.559   Installing the file.
+2021-07-25 15:52:50.575   Successfully installed the file.
+2021-07-25 15:52:50.575   -- File entry --
+2021-07-25 15:52:50.575   Dest filename: C:\Program Files (x86)\AviSynth+\plugins64+\ImageSeq.dll
+2021-07-25 15:52:50.575   Time stamp of our file: 2021-01-11 16:47:06.000
+2021-07-25 15:52:50.575   Installing the file.
+2021-07-25 15:52:50.575   Successfully installed the file.
+2021-07-25 15:52:50.575   -- File entry --
+2021-07-25 15:52:50.575   Dest filename: C:\Program Files (x86)\AviSynth+\plugins64+\Shibatch.dll
+2021-07-25 15:52:50.575   Time stamp of our file: 2021-01-11 16:47:06.000
+2021-07-25 15:52:50.575   Installing the file.
+2021-07-25 15:52:50.590   Successfully installed the file.
+2021-07-25 15:52:50.590   -- File entry --
+2021-07-25 15:52:50.590   Dest filename: C:\Program Files (x86)\AviSynth+\plugins64+\TimeStretch.dll
+2021-07-25 15:52:50.590   Time stamp of our file: 2021-01-11 16:47:06.000
+2021-07-25 15:52:50.590   Installing the file.
+2021-07-25 15:52:50.590   Successfully installed the file.
+2021-07-25 15:52:50.590   -- File entry --
+2021-07-25 15:52:50.590   Dest filename: C:\Program Files (x86)\AviSynth+\plugins64+\VDubFilter.dll
+2021-07-25 15:52:50.590   Time stamp of our file: 2021-01-11 16:47:06.000
+2021-07-25 15:52:50.590   Installing the file.
+2021-07-25 15:52:50.590   Successfully installed the file.
+2021-07-25 15:52:50.590   -- File entry --
+2021-07-25 15:52:50.590   Dest filename: C:\Program Files (x86)\AviSynth+\plugins64+\colors_rgb.avsi
+2021-07-25 15:52:50.590   Time stamp of our file: 2021-01-11 16:27:04.000
+2021-07-25 15:52:50.590   Installing the file.
+2021-07-25 15:52:50.762   Successfully installed the file.
+2021-07-25 15:52:50.762   -- File entry --
+2021-07-25 15:52:50.762   Dest filename: C:\Program Files (x86)\AviSynth+\plugins64+\colors_rgb.txt
+2021-07-25 15:52:50.762   Time stamp of our file: 2021-01-11 16:27:04.000
+2021-07-25 15:52:50.762   Installing the file.
+2021-07-25 15:52:50.778   Successfully installed the file.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{{E6D6B700-124D-11D4-86F3-DB80AFD98778}
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Successfully created the key.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{{E6D6B700-124D-11D4-86F3-DB80AFD98778}
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{{E6D6B700-124D-11D4-86F3-DB80AFD98778}\InProcServer32
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{{E6D6B700-124D-11D4-86F3-DB80AFD98778}\InProcServer32
+2021-07-25 15:52:50.778   Value name: ThreadingModel
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\Media Type\Extensions\.avs
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Successfully created the key.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\Media Type\Extensions\.avs
+2021-07-25 15:52:50.778   Value name: Source Filter
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\.avs
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\.avsi
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\avsfile
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\avsfile\DefaultIcon
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\avs_auto_file
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\avs_auto_file\DefaultIcon
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\Classes\AVIFile\Extensions\AVS
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\AviSynth
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\AviSynth
+2021-07-25 15:52:50.778   Value name: plugindir2_5
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   -- Registry entry --
+2021-07-25 15:52:50.778   Key: HKEY_LOCAL_MACHINE\Software\AviSynth
+2021-07-25 15:52:50.778   Value name: plugindir+
+2021-07-25 15:52:50.778   Non-default bitness: 64-bit
+2021-07-25 15:52:50.778   Creating or opening the key.
+2021-07-25 15:52:50.778   Creating or setting the value.
+2021-07-25 15:52:50.778   Successfully created or set the value.
+2021-07-25 15:52:50.778   Saving uninstall information.
+2021-07-25 15:52:50.778   Deleting any uninstall keys left over from previous installs
+2021-07-25 15:52:50.778   Creating new uninstall key: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\{AC78780F-BACA-4805-8D4F-AE1B52B7E7D3}_is1
+2021-07-25 15:52:50.778   Writing uninstall key values.
+2021-07-25 15:52:50.778   Installation process succeeded.
+2021-07-25 15:52:59.403   Need to restart Windows? No
