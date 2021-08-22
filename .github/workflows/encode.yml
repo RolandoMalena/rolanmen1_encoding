@@ -3,7 +3,6 @@ name: Encode
 on:
   workflow_run:
     workflows: ["Build"]
-    branches: [main]
     types: 
       - completed
 
@@ -27,6 +26,7 @@ jobs:
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
           workflow_conclusion: completed
+          branch: ${GITHUB_REF}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
