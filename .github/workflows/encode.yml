@@ -40,7 +40,7 @@ jobs:
       - name: Download Google Drive Credentials
         run: |
           cd RemoteFileManagerFiles
-          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "$(GOOGLE_DRIVE_SECRET)"
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "${{ secrets.GOOGLE_DRIVE_SECRET }}"
       
       - name: Install Avisynth+
         run: |
@@ -97,7 +97,7 @@ jobs:
       - name: Download Google Drive Credentials
         run: |
           cd RemoteFileManagerFiles
-          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "$(GOOGLE_DRIVE_SECRET)"
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "${{ secrets.GOOGLE_DRIVE_SECRET }}"
 
       - name: Install Avisynth+
         run: |
