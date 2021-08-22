@@ -1,11 +1,11 @@
 name: Encode
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Build"]
     types: [completed]
 
-  workflow_dispatch:
 
 jobs:
   encode_footage:
@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${GITHUB_REF}
+          ref: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download ScriptSegmentation Files
         uses: dawidd6/action-download-artifact@v2
@@ -27,6 +27,7 @@ jobs:
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
           workflow_conclusion: completed
+          branch: ${{ github.event.workflow_run.head_branch }}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -35,6 +36,7 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
+          branch: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -81,6 +83,8 @@ jobs:
         clip: ["clip"]
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -89,6 +93,7 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
+          branch: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download Google Drive Credentials
         run: |

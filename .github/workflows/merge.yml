@@ -1,13 +1,11 @@
 name: Join
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Encode"]
-    branches: [main]
-    types: 
-      - completed
+    types: [completed]
 
-  workflow_dispatch:
 
 jobs:
   merge_files:
@@ -18,6 +16,8 @@ jobs:
         clip: ["clip"]
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
