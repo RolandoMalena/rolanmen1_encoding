@@ -3,8 +3,6 @@ name: Encode
 on:
   workflow_run:
     workflows: ["Build"]
-    branches: 
-    - '*'
     types: 
     - requested
     - completed
