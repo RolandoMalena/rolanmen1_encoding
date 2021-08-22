@@ -3,9 +3,7 @@ name: Encode
 on:
   workflow_run:
     workflows: ["Build"]
-    types: 
-    - requested
-    - completed
+    types: [completed]
 
   workflow_dispatch:
 
