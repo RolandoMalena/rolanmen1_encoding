@@ -42,6 +42,8 @@ jobs:
           cd ./Encoding/Output
           $filenames = $($(Get-ChildItem $(pwd) -Filter *.mkv) -join " ")
           New-Item -Path 'Final' -ItemType Directory
+          ls
+          echo $filenames
           ../mkvmerge.exe -o Final/${{matrix.clip}}.mkv "./${{matrix.clip}}-audio.wav" '[' $filenames ']'
 
       - name: Upload Normalized Audio
