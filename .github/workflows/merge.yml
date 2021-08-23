@@ -40,8 +40,7 @@ jobs:
       - name: Run MKV Merge
         run: |
           cd ./Encoding/Output
-          $filenames = $($(Get-ChildItem $(pwd) -Filter *.mkv) -Join "`" `"")
-          $filenames = "`"" + $filenames + "`""
+          $filenames = "`"" + $($(Get-ChildItem . -Filter *.mkv) -Join "`" `"") + "`""
           New-Item -Path 'Final' -ItemType Directory
           ../mkvmerge.exe -o Final/${{matrix.clip}}.mkv "${{matrix.clip}}-audio.wav" '[' $filenames ']'
 
