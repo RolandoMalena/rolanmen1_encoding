@@ -42,9 +42,7 @@ jobs:
           cd ./Encoding/Output
           New-Item -Path 'Final' -ItemType Directory
           $files = $(Get-ChildItem . -Filter *.mkv) | Select -expand Name
-          echo $files
-          ls
-          ../mkvmerge.exe -o Final/${{matrix.clip}}.mkv "${{matrix.clip}}-audio.wav" '[' $files[0] $files[1] $files[2] $files[3] $files[4] $files[5] $files[6] $files[7] $files[8] $files[9] $files[10] $files[11] $files[12] $files[13] $files[14] $files[15] $files[16] $files[17] $files[18] $files[19] ']'
+          ../mkvmerge.exe -o "Final/${{matrix.clip}}.mkv" "${{matrix.clip}}-audio.wav" '[' $files[0] $files[1] $files[2] $files[3] $files[4] $files[5] $files[6] $files[7] $files[8] $files[9] $files[10] $files[11] $files[12] $files[13] $files[14] $files[15] $files[16] $files[17] $files[18] $files[19] ']'
 
       - name: Upload Final Output
         run: |
