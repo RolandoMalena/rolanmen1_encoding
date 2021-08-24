@@ -1,24 +1,23 @@
 name: Encode
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Build"]
-    types: 
-    - requested
-    - completed
-
-  workflow_dispatch:
+    types: [completed]
 
 jobs:
   encode_footage:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
         clip: ["clip"]
         segment: [1, 2]
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download ScriptSegmentation Files
         uses: dawidd6/action-download-artifact@v2
@@ -27,6 +26,7 @@ jobs:
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
           workflow_conclusion: completed
+          branch: ${{ github.event.workflow_run.head_branch }}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -35,11 +35,12 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
+          branch: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download Google Drive Credentials
         run: |
           cd RemoteFileManagerFiles
-          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "$(GOOGLE_DRIVE_SECRET)"
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
       
       - name: Install Avisynth+
         run: |
@@ -75,12 +76,14 @@ jobs:
 
   normalize_audio:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
         clip: ["clip"]
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -89,11 +92,12 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
+          branch: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download Google Drive Credentials
         run: |
           cd RemoteFileManagerFiles
-          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "$(GOOGLE_DRIVE_SECRET)"
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
 
       - name: Install Avisynth+
         run: |

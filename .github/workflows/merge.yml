@@ -1,23 +1,22 @@
 name: Join
 
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Encode"]
-    branches: [main]
-    types: 
-      - completed
-
-  workflow_dispatch:
+    types: [completed]
 
 jobs:
   merge_files:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
         clip: ["clip"]
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
       
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -26,26 +25,26 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: master
+          branch: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Download Google Drive Credentials
+        run: |
+          cd RemoteFileManagerFiles
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
       
       - name: Download Encoded Footage
         run: |
           cd RemoteFileManagerFiles
           ./RemoteFileManager.exe down ../Encoding/Output "${{matrix.clip}}-\d{1,}\.mkv|${{matrix.clip}}-audio\.wav"
       
-      - name: Download Google Drive Credentials
-        run: |
-          cd RemoteFileManagerFiles
-          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value "$(GOOGLE_DRIVE_SECRET)"
-      
       - name: Run MKV Merge
         run: |
           cd ./Encoding/Output
-          $filenames = $($(Get-ChildItem $(pwd) -Filter *.mkv) -join " ")
           New-Item -Path 'Final' -ItemType Directory
-          ../mkvmerge.exe -o Final/${{matrix.clip}}.mkv "./${{matrix.clip}}-audio.wav" '[' $filenames ']'
+          $files = $(Get-ChildItem . -Filter *.mkv) | Select -expand Name
+          ../mkvmerge.exe -o "Final/${{matrix.clip}}.mkv" "${{matrix.clip}}-audio.wav" '[' $files[0] $files[1] $files[2] $files[3] $files[4] $files[5] $files[6] $files[7] $files[8] $files[9] $files[10] $files[11] $files[12] $files[13] $files[14] $files[15] $files[16] $files[17] $files[18] $files[19] ']'
 
-      - name: Upload Normalized Audio
+      - name: Upload Final Output
         run: |
           cd RemoteFileManagerFiles
           ./RemoteFileManager.exe up ../Encoding/Output/Final
