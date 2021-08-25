@@ -18,19 +18,21 @@ namespace RemoteFileManager
         static string localPath;
         static string fileRegex;
 
-        static string ApplicationName = "Remote File Manager";
+        const string ApplicationName = "Remote File Manager";
         static DriveService service;
 
         /*
          * Arguments:
          * Action: What action to make, options are 'ls', 'up', 'down' or 'del'. If not provided will just check used storage.
          * LocalPath: Local path to download files to or upload files from. (Only used on 'up' or 'down')
+         * RemotePath: Folder path in Google Drive to upload files to or download/delete files from. (Only used on 'up', 'down' or 'del')
+         * Regex: Regex used to determine which files to upload/download/delete.
          * 
          * Examples:
          * .exe
          * .exe ls
          * .exe down . file*.txt
-         * .exe up C:/Encoding Encoding/Output
+         * .exe up C:/Encoding/Output clip1/output *.mkv
          * .exe del
          */
         static async Task Main(string[] args)
