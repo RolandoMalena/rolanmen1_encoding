@@ -23,11 +23,12 @@ namespace RemoteFileManager
 
         /*
          * Arguments:
-         * Action: What action to make, options are 'up', 'down' or 'del'. If not provided will just check used storage.
+         * Action: What action to make, options are 'ls', 'up', 'down' or 'del'. If not provided will just check used storage.
          * LocalPath: Local path to download files to or upload files from. (Only used on 'up' or 'down')
          * 
          * Examples:
          * .exe
+         * .exe ls
          * .exe down . file*.txt
          * .exe up C:/Encoding Encoding/Output
          * .exe del
@@ -47,7 +48,13 @@ namespace RemoteFileManager
             await CheckDriveUsedStorage();
             Console.WriteLine();
 
-            if (action == ActionFlow.Upload)
+            if (action == ActionFlow.List)
+            {
+                Console.WriteLine("Listing files from Google Drive.");
+                await ListFiles();
+                Console.WriteLine();
+            }
+            else if (action == ActionFlow.Upload)
             {
                 Console.WriteLine("Uploading files to Google Drive.");
                 await UploadFiles();
@@ -83,6 +90,10 @@ namespace RemoteFileManager
                 var act = args[0].ToLower().Trim();
                 switch (act)
                 {
+                    case "ls":
+                        action = ActionFlow.List;
+                        break;
+                        
                     case "up":
                         action = ActionFlow.Upload;
                         break;
@@ -150,6 +161,16 @@ namespace RemoteFileManager
             var gbs = bytes / 1073741824;
 
             return $"{bytes} Bytes / {kbs} KBs / {mbs} MBs / {gbs} GBs";
+        }
+
+        static async Task ListFiles()
+        {
+            var fileRequest = service.Files.List();
+            fileRequest.Fields = "*";
+            var files = (await fileRequest.ExecuteAsync()).Files;
+
+            foreach (var file in files)
+                Console.WriteLine($"{file.Name}: {GetFormattedFileSize(file.Size.Value)}.");
         }
 
         static async Task UploadFiles()
