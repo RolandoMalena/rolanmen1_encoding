@@ -12,10 +12,13 @@ namespace RemoteFileManager.Actions
         {
             var fileRequest = service.Files.List();
             fileRequest.Fields = "*";
-            var files = (await fileRequest.ExecuteAsync()).Files;
+            var files = (await fileRequest.ExecuteAsync())
+                .Files
+                .Where(f => f.MimeType != Constants.MimeTypes.Folder)
+                .ToArray();
 
             var totalKnownSize = files.Sum(f => f.Size.Value);
-            Console.WriteLine($"Found {files.Count} files. Total size used: {totalKnownSize.Format()}.");
+            Console.WriteLine($"Found {files.Length} files. Total size used: {totalKnownSize.Format()}.");
         }
     }
 }

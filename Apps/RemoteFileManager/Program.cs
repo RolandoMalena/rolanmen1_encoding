@@ -9,6 +9,7 @@ namespace RemoteFileManager
     {
         static ActionFlow? action;
         static string localPath;
+        static string remotePath;
         static string fileRegex;
 
         const string ApplicationName = "Remote File Manager";
@@ -26,7 +27,7 @@ namespace RemoteFileManager
          * .exe ls
          * .exe down . file*.txt
          * .exe up C:/Encoding/Output clip1/output *.mkv
-         * .exe del
+         * .exe del clip1
          */
         static async Task Main(string[] args)
         {
@@ -37,7 +38,6 @@ namespace RemoteFileManager
             Console.WriteLine("Authenticating to Google Drive.");
             service = Actions.Authenticate.Execute(ApplicationName);
             Console.WriteLine();
-
 
             Console.WriteLine("Checking used storage.");
             await Actions.CheckStorage.Execute(service);
@@ -52,7 +52,7 @@ namespace RemoteFileManager
             else if (action == ActionFlow.Upload)
             {
                 Console.WriteLine("Uploading files to Google Drive.");
-                await Actions.Upload.Execute(service, localPath, fileRegex);
+                await Actions.Upload.Execute(service, localPath, remotePath, fileRegex);
                 Console.WriteLine();
             }
             else if (action == ActionFlow.Download)
@@ -112,10 +112,14 @@ namespace RemoteFileManager
             }
 
             if (args.Length >= 3)
-                fileRegex = args[2];
+                remotePath = args[2];
+
+            if (args.Length >= 4)
+                fileRegex = args[3];
 
             Console.WriteLine($"Action: {action}");
             Console.WriteLine($"Local Path: {localPath}");
+            Console.WriteLine($"Remote Path: {localPath}");
             Console.WriteLine($"File Regex: {fileRegex}");
         }
     }
