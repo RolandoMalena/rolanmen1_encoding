@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RemoteFileManager": {
+      "commandName": "Project",
+      "commandLineArgs": "up . fol1 RemoteFileManager.*.json"
+    }
+  }
+}
