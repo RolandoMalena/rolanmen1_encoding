@@ -58,7 +58,7 @@ namespace RemoteFileManager
             else if (action == ActionFlow.Download)
             {
                 Console.WriteLine("Downloading files from Google Drive.");
-                await Actions.Download.Execute(service, localPath, fileRegex);
+                await Actions.Download.Execute(service, localPath, remotePath, fileRegex);
                 Console.WriteLine();
             }
             else if (action == ActionFlow.Delete)

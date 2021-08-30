@@ -19,6 +19,8 @@ namespace RemoteFileManager.Actions
 
             if (remotePath == null || remotePath == ".")
                 remotePath = string.Empty;
+            else if(!remotePath.EndsWith("/"))
+                remotePath += '/';
 
             if(!string.IsNullOrEmpty(remotePath))
                 await CreateFolder(service, remotePath);
@@ -34,7 +36,7 @@ namespace RemoteFileManager.Actions
 
                 var file = new Google.Apis.Drive.v3.Data.File()
                 {
-                    Name = $"{remotePath}/{fileName}"
+                    Name = $"{remotePath}{fileName}"
                 };
 
                 byte[] byteArray = File.ReadAllBytes(filePath);  
