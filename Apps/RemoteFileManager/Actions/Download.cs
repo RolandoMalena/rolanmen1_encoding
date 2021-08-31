@@ -10,9 +10,20 @@ namespace RemoteFileManager.Actions
 {
     public static class Download
     {
-        public static async Task Execute(DriveService service, string downloadPath, string regex)
+        public static async Task Execute(DriveService service, string downloadPath, string remotePath, string regex)
         {
-            var files = (await service.Files.List().ExecuteAsync()).Files;
+            if (remotePath == null || remotePath == ".")
+                remotePath = string.Empty;
+
+            var files = (await service.Files.List().ExecuteAsync())
+                .Files
+                .Where(f => f.MimeType != Constants.MimeTypes.Folder)
+                .ToList();
+
+            if (remotePath == string.Empty)
+                files = files.Where(f => !f.Name.Contains("/")).ToList();
+            else
+                files = files.Where(f => f.Name.StartsWith(remotePath)).ToList();
 
             if (!string.IsNullOrWhiteSpace(regex))
                 files = files.Where(f => Regex.IsMatch(f.Name, regex)).ToList();
@@ -26,7 +37,7 @@ namespace RemoteFileManager.Actions
             {
                 Console.WriteLine($"Downloading file: {file.Name}");
                 
-                using (var fileStream = File.Create(Path.Combine(downloadPath, file.Name)))
+                using (var fileStream = File.Create(Path.Combine(downloadPath, Path.GetFileName(file.Name))))
                 {
                     var result = service.Files.Get(file.Id).DownloadWithStatus(fileStream);
                     
