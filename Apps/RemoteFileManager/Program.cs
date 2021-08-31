@@ -1,38 +1,26 @@
-﻿using Google.Apis.Drive.v3;
+﻿using CommandLine;
+using Google.Apis.Drive.v3;
+using RemoteFileManager.Options;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace RemoteFileManager
 {
     class Program
     {
-        static ActionFlow? action;
-        static string localPath;
-        static string remotePath;
-        static string fileRegex;
-
         const string ApplicationName = "Remote File Manager";
-        static DriveService service;
 
-        /*
-         * Arguments:
-         * Action: What action to make, options are 'ls', 'up', 'down' or 'del'. If not provided will just check used storage.
-         * LocalPath: Local path to download files to or upload files from. (Only used on 'up' or 'down')
-         * RemotePath: Folder path in Google Drive to upload files to or download/delete files from. (Only used on 'up', 'down' or 'del')
-         * Regex: Regex used to determine which files to upload/download/delete.
-         * 
-         * Examples:
-         * .exe
-         * .exe ls
-         * .exe down . file*.txt
-         * .exe up C:/Encoding/Output clip1/output *.mkv
-         * .exe del clip1
-         */
-        static async Task Main(string[] args)
+        static DriveService service;
+        static BaseOptions options;
+
+        static async Task<int> Main(string[] args)
         {
-            Console.WriteLine("Starting Remote File Manager.");
-            SetVariables(args);
+            Console.WriteLine($"Starting {ApplicationName}.");
+
+            if(!ParseArguments(args))
+                return -1;
+
+            options.PrintOptions();
             Console.WriteLine();
 
             Console.WriteLine("Authenticating to Google Drive.");
@@ -43,84 +31,56 @@ namespace RemoteFileManager
             await Actions.CheckStorage.Execute(service);
             Console.WriteLine();
 
-            if (action == ActionFlow.List)
+            switch (options.ActionFlow)
             {
+              case ActionFlow.List:
                 Console.WriteLine("Listing files from Google Drive.");
                 await Actions.List.Execute(service);
-                Console.WriteLine();
-            }
-            else if (action == ActionFlow.Upload)
-            {
-                Console.WriteLine("Uploading files to Google Drive.");
-                await Actions.Upload.Execute(service, localPath, remotePath, fileRegex);
-                Console.WriteLine();
-            }
-            else if (action == ActionFlow.Download)
-            {
+                break;
+
+              case ActionFlow.Download:
                 Console.WriteLine("Downloading files from Google Drive.");
-                await Actions.Download.Execute(service, localPath, remotePath, fileRegex);
-                Console.WriteLine();
-            }
-            else if (action == ActionFlow.Delete)
-            {
+                await Actions.Download.Execute(service, options as DownloadOptions);
+                break;
+
+              case ActionFlow.Upload:
+                Console.WriteLine("Uploading files to Google Drive.");
+                await Actions.Upload.Execute(service, options as UploadOptions);
+                break;
+
+        
+              case ActionFlow.Delete:
                 Console.WriteLine("Deleting files from Google Drive.");
                 await Actions.Delete.Execute(service);
-                Console.WriteLine();
+                break;
             }
+            Console.WriteLine();
 
-            if (action != null)
-            {
-                Console.WriteLine("Checking used storage.");
-                await Actions.CheckStorage.Execute(service);
-                Console.WriteLine();
-            }
+            Console.WriteLine("Checking used storage.");
+            await Actions.CheckStorage.Execute(service);
+            Console.WriteLine();
 
             Console.WriteLine("Finished execution. Shutting down application.");
+            return 0;
         }
 
-        static void SetVariables(string[] args)
+        private static bool ParseArguments(string[] args)
         {
-            if (args.Length >= 1)
+            Func<BaseOptions, int> HandleOptions = new Func<BaseOptions, int>(opts =>
             {
-                var act = args[0].ToLower().Trim();
-                switch (act)
-                {
-                    case "ls":
-                        action = ActionFlow.List;
-                        break;
-                        
-                    case "up":
-                        action = ActionFlow.Upload;
-                        break;
+                options = opts;
+                return 0;
+            });
 
-                    case "down":
-                        action = ActionFlow.Download;
-                        break;
+            var result = Parser.Default.ParseArguments<ListOptions, DownloadOptions, UploadOptions, DeleteOptions>(args)
+                .MapResult(
+                    (ListOptions opts) => HandleOptions(opts),
+                    (DownloadOptions opts) => HandleOptions(opts),
+                    (UploadOptions opts) => HandleOptions(opts),
+                    (DeleteOptions opts) => HandleOptions(opts),
+                    errors => -1);
 
-                    case "del":
-                        action = ActionFlow.Delete;
-                        break;
-                }
-            }
-
-            if (args.Length >= 2)
-            {
-                if (!Path.IsPathRooted(args[1]))
-                    localPath = Path.Combine(Environment.CurrentDirectory, args[1]);
-                else
-                    localPath = args[1];
-            }
-
-            if (args.Length >= 3)
-                remotePath = args[2];
-
-            if (args.Length >= 4)
-                fileRegex = args[3];
-
-            Console.WriteLine($"Action: {action}");
-            Console.WriteLine($"Local Path: {localPath}");
-            Console.WriteLine($"Remote Path: {localPath}");
-            Console.WriteLine($"File Regex: {fileRegex}");
+            return result != -1;
         }
     }
 }

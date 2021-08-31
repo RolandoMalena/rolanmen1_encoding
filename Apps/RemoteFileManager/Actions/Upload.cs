@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Drive.v3;
 using Google.Apis.Upload;
 using RemoteFileManager.ExtensionMethods;
+using RemoteFileManager.Options;
 using System;
 using System.IO;
 using System.Linq;
@@ -11,8 +12,12 @@ namespace RemoteFileManager.Actions
 {
     public static class Upload
     {
-        public static async Task Execute(DriveService service, string sourcePath, string remotePath, string regex)
+        public static async Task Execute(DriveService service, UploadOptions opts)
         {
+            string sourcePath = opts.LocalPath;
+            string remotePath = opts.RemotePath;
+            string regex = opts.Regex;
+
             var files = Directory
                 .GetFiles(sourcePath)
                 .Where(f => Regex.IsMatch(Path.GetFileName(f), regex));
