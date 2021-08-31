@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Download;
 using Google.Apis.Drive.v3;
+using RemoteFileManager.Options;
 using System;
 using System.IO;
 using System.Linq;
@@ -10,8 +11,12 @@ namespace RemoteFileManager.Actions
 {
     public static class Download
     {
-        public static async Task Execute(DriveService service, string downloadPath, string remotePath, string regex)
+        public static async Task Execute(DriveService service, DownloadOptions opts)
         {
+            string downloadPath = opts.LocalPath;
+            string remotePath = opts.RemotePath;
+            string regex = opts.Regex;
+
             if (remotePath == null || remotePath == ".")
                 remotePath = string.Empty;
 
