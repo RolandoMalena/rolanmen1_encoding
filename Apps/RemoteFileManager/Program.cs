@@ -51,7 +51,7 @@ namespace RemoteFileManager
         
               case ActionFlow.Delete:
                 Console.WriteLine("Deleting files from Google Drive.");
-                await Actions.Delete.Execute(service);
+                await Actions.Delete.Execute(service, options as DeleteOptions);
                 break;
             }
             Console.WriteLine();
