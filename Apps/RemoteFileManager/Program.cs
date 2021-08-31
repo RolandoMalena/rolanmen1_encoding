@@ -35,7 +35,7 @@ namespace RemoteFileManager
             {
               case ActionFlow.List:
                 Console.WriteLine("Listing files from Google Drive.");
-                await Actions.List.Execute(service);
+                await Actions.List.Execute(service, options as ListOptions);
                 break;
 
               case ActionFlow.Download:

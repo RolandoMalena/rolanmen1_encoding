@@ -12,7 +12,7 @@ namespace RemoteFileManager.Options
         [Value(index: 1, Required = true, HelpText = "Remote path to upload files to.")]
         public string RemotePath { get; set; }
 
-        [Value(index: 2, Required = true, HelpText = "Regex used to filter in files.")]
+        [Value(index: 2, Required = false, HelpText = "Regex used to filter in files.", Default = "")]
         public string Regex { get; set; }
 
         public override ActionFlow ActionFlow => ActionFlow.Upload;
