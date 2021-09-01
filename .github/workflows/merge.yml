@@ -35,7 +35,7 @@ jobs:
       - name: Download Encoded Footage
         run: |
           cd RemoteFileManagerFiles
-          ./RemoteFileManager.exe down ../Encoding/Output "${{matrix.clip}}" \d{1,}\.mkv|audio\.wav
+          ./RemoteFileManager.exe down ../Encoding/Output "${{matrix.clip}}" "\d{1,}\.mkv|audio\.wav"
       
       - name: Run MKV Merge
         run: |
