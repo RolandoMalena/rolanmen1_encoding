@@ -61,7 +61,7 @@ jobs:
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
-          ./ScriptSegmentation.exe 2 ../Encoding/final.avs ../Encoding/Segments
+          ./ScriptSegmentation.exe 20 ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Footage
         run: |

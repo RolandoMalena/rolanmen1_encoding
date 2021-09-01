@@ -46,4 +46,4 @@ jobs:
       - name: Upload Final Output
         run: |
           cd RemoteFileManagerFiles
-          ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" "${{matrix.clip}}"
+          ./RemoteFileManager.exe up ../Encoding/Output "Encoded" "${{matrix.clip}}"
