@@ -40,8 +40,15 @@ jobs:
       - name: Run MKV Merge
         run: |
           cd ./Encoding/Output
+
+          $orderedFiles = @()
           $files = $(Get-ChildItem . -Filter *.mkv) | Select -expand Name
-          ../mkvmerge.exe -o "${{matrix.clip}}.mkv" audio.wav '[' $files[0] $files[1] $files[2] $files[3] $files[4] $files[5] $files[6] $files[7] $files[8] $files[9] $files[10] $files[11] $files[12] $files[13] $files[14] $files[15] $files[16] $files[17] $files[18] $files[19] ']'
+          $files | ForEach-Object -Process {
+              $orderedFiles = $orderedFiles + [int]::Parse($_.Replace(".mkv", ""))
+          }
+          $orderedFiles = $orderedFiles | Sort-Object | ForEach-Object {"$_.mkv"}
+
+          ../mkvmerge.exe -o "${{matrix.clip}}.mkv" audio.wav '[' $orderedFiles[0] $orderedFiles[1] $orderedFiles[2] $orderedFiles[3] $orderedFiles[4] $orderedFiles[5] $orderedFiles[6] $orderedFiles[7] $orderedFiles[8] $orderedFiles[9] $orderedFiles[10] $orderedFiles[11] $orderedFiles[12] $orderedFiles[13] $orderedFiles[14] $orderedFiles[15] $orderedFiles[16] $orderedFiles[17] $orderedFiles[18] $orderedFiles[19] ']'
 
       - name: Upload Final Output
         run: |
