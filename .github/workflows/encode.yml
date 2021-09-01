@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         clip: ["clip"]
-        segment: [1, 2]
+        segment: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -61,18 +61,18 @@ jobs:
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
-          ./ScriptSegmentation.exe 2 ../Encoding/final.avs ../Encoding/Segments
+          ./ScriptSegmentation.exe 20 ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Footage
         run: |
           cd ./Encoding
           New-Item -Path 'Output' -ItemType Directory
-          ./x264.exe --qp 10 -b 0 --input-range tv --range tv --output-csp i420 --colormatrix bt709 --output ./Output/${{matrix.clip}}-${{matrix.segment}}.mkv ../Encoding/Segments/${{matrix.segment}}.avs --thread-input --output-depth 8
+          ./x264.exe --qp 10 -b 0 --input-range tv --range tv --output-csp i420 --colormatrix bt709 --output ./Output/${{matrix.segment}}.mkv ../Encoding/Segments/${{matrix.segment}}.avs --thread-input --output-depth 8
 
       - name: Upload Encoded Footage
         run: |
           cd RemoteFileManagerFiles
-          ./RemoteFileManager.exe up ../Encoding/Output
+          ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" ${{matrix.segment}}.mkv
 
   normalize_audio:
     runs-on: windows-2019
@@ -124,14 +124,14 @@ jobs:
         run: |
           cd ./Encoding
           New-Item -Path 'Output' -ItemType Directory
-          ./ffmpeg.exe -y -i ./final.avs ./Output/${{matrix.clip}}-audio.wav
+          ./ffmpeg.exe -y -i ./final.avs ./Output/audio.wav
       
       - name: Run WaveGain
         run: |
           cd ./Encoding
-          ./WaveGain.exe -y ./Output/${{matrix.clip}}-audio.wav
+          ./WaveGain.exe -y ./Output/audio.wav
       
       - name: Upload Normalized Audio
         run: |
           cd RemoteFileManagerFiles
-          ./RemoteFileManager.exe up ../Encoding/Output
+          ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" audio.wav

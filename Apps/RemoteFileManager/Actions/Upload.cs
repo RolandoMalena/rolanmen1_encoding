@@ -34,14 +34,15 @@ namespace RemoteFileManager.Actions
             {
                 var fileName = Path.GetFileName(filePath);
                 var fileSize = new FileInfo(filePath).Length;
+                var fullFileName = $"{remotePath}{fileName}";
 
                 Console.WriteLine($"Uploading file: {fileName} ({fileSize.Format()})");
 
-                await DeleteFileIfExists(service, fileName);
+                await DeleteFileIfExists(service, fullFileName);
 
                 var file = new Google.Apis.Drive.v3.Data.File()
                 {
-                    Name = $"{remotePath}{fileName}"
+                    Name = fullFileName
                 };
 
                 byte[] byteArray = File.ReadAllBytes(filePath);  
