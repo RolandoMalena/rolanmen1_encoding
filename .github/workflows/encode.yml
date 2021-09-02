@@ -72,7 +72,7 @@ jobs:
         run: |
           cd ./Encoding
           New-Item -Path 'Output' -ItemType Directory
-          ./x264.exe --qp 10 -b 0 --input-range tv --range tv --output-csp i420 --colormatrix bt709 --output ./Output/${{matrix.segment}}.mkv ../Encoding/Segments/${{matrix.segment}}.avs --thread-input --output-depth 8
+          ./x264.exe --qp 10 -b 0 --input-range tv --range tv --output-csp i420 --colormatrix bt709 --output ./Output/${{matrix.segment}}.mkv "./Segments/${{matrix.segment}}.avs" --thread-input --output-depth 8
 
       - name: Upload Encoded Clip Segment
         run: |
