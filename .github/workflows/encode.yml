@@ -12,7 +12,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
-        clip: ["clip"]
+        clip: ["clip1", "clip2"]
         segment: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     steps:
       - uses: actions/checkout@v2
@@ -42,6 +42,11 @@ jobs:
           cd RemoteFileManagerFiles
           New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
       
+      - name: Download Footage from Google Drive
+        run: |
+          cd RemoteFileManagerFiles
+          ./RemoteFileManager.exe down ../Encoding Footage
+      
       - name: Install Avisynth+
         run: |
           Move-Item -Path '.\AviSynth\ProgramFiles' -Destination 'C:\Program Files (x86)\AviSynth+' -force
@@ -56,20 +61,20 @@ jobs:
       - name: Prepare input.avs file
         run: |
           cd ./Encoding
-          Set-Content input.avs 'Import("../Footage/${{matrix.clip}}.avs")'
+          Set-Content input.avs 'Import("../Encoding/${{matrix.clip}}.avs")'
 
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
           ./ScriptSegmentation.exe 20 ../Encoding/final.avs ../Encoding/Segments
 
-      - name: Encode Footage
+      - name: Encode Clip Segment
         run: |
           cd ./Encoding
           New-Item -Path 'Output' -ItemType Directory
-          ./x264.exe --qp 10 -b 0 --input-range tv --range tv --output-csp i420 --colormatrix bt709 --output ./Output/${{matrix.segment}}.mkv ../Encoding/Segments/${{matrix.segment}}.avs --thread-input --output-depth 8
+          ./x264.exe --qp 10 -b 0 --input-range tv --range tv --output-csp i420 --colormatrix bt709 --output ./Output/${{matrix.segment}}.mkv "./Segments/${{matrix.segment}}.avs" --thread-input --output-depth 8
 
-      - name: Upload Encoded Footage
+      - name: Upload Encoded Clip Segment
         run: |
           cd RemoteFileManagerFiles
           ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" ${{matrix.segment}}.mkv
@@ -79,7 +84,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
-        clip: ["clip"]
+        clip: ["clip1", "clip2"]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -98,6 +103,11 @@ jobs:
         run: |
           cd RemoteFileManagerFiles
           New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
+      
+      - name: Download Footage from Google Drive
+        run: |
+          cd RemoteFileManagerFiles
+          ./RemoteFileManager.exe down ../Encoding Footage
 
       - name: Install Avisynth+
         run: |
@@ -118,7 +128,7 @@ jobs:
       - name: Prepare input.avs file
         run: |
           cd ./Encoding
-          Set-Content input.avs 'Import("../Footage/${{matrix.clip}}.avs")'
+          Set-Content input.avs 'Import("../Encoding/${{matrix.clip}}.avs")'
       
       - name: Extract Audio File
         run: |
