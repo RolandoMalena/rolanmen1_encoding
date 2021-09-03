@@ -18,6 +18,7 @@ namespace RemoteFileManager.Actions
             var files = (await fileRequest.ExecuteAsync()).Files;
             files = files
                 .Where(f => f.MimeType != Constants.MimeTypes.Folder && Regex.IsMatch(f.Name, opts.Regex))
+                .OrderBy(f => f.Name)
                 .ToList();
             
             foreach (var file in files)

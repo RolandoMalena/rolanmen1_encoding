@@ -59,6 +59,14 @@ namespace RemoteFileManager.Actions
 
         private static async Task CreateFolder(DriveService service, string remotePath)
         {
+            var files = (await service.Files.List().ExecuteAsync())
+                .Files
+                .Where(f => f.Name == remotePath && f.MimeType == Constants.MimeTypes.Folder)
+                .ToList();
+
+            if (files.Any())
+                return;
+
             var file = new Google.Apis.Drive.v3.Data.File()
             {
                 Name = remotePath,
