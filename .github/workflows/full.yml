@@ -1,0 +1,13 @@
+name: Full Encode Flow
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  encode:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run Build Pipeline
+      run: 'curl -X POST -H "Accept: application/vnd.github.v3+json"-H "Authorization: Bearer {{OAUTH_TOKEN}}" https://api.github.com/repos/RolandoMalena/rolanmen1_encoding/actions/workflows/build.yml/dispatches'
