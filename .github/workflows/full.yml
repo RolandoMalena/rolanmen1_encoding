@@ -17,4 +17,4 @@ jobs:
         -H "Content-Type:application/json" \
         -H "Authorization:Bearer {{OAUTH_TOKEN}}" \
         -d '{"ref":"${{github.ref}}"}' \
-        https://api.github.com/repos/RolandoMalena/rolanmen1_encoding/actions/workflows/build.yml/dispatches
+        "https://api.github.com/repos/RolandoMalena/rolanmen1_encoding/actions/workflows/build.yml/dispatches"
