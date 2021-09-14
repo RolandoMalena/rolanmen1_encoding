@@ -2,9 +2,6 @@ name: Join
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Encode"]
-    types: [completed]
 
 jobs:
   merge_files:
