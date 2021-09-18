@@ -48,7 +48,7 @@ jobs:
           retention-days: 30
 
   run_workflows:
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
     needs: build_apps
     steps:
     - name: Download a Build Artifact
@@ -60,4 +60,4 @@ jobs:
     - name: Download WorkflowRunner Files
       run: |
         cd WorkflowRunnerFiles
-        WorkflowRunner -t ${{ secrets.GOOGLE_DRIVE_SECRET }} -r ${{ github.event.workflow_run.head_branch }}
+        ./WorkflowRunner.exe -t ${{ secrets.GOOGLE_DRIVE_SECRET }} -r ${{ github.event.workflow_run.head_branch }}
