@@ -39,3 +39,24 @@ jobs:
           name: 'RemoteFileManagerFiles'
           path: 'Apps/RemoteFileManager/bin/Release/netcoreapp3.1/*'
           retention-days: 30
+
+      - name: 'Upload WorkflowRunner Files'
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: 'WorkflowRunnerFiles'
+          path: 'Apps/WorkflowRunner/bin/Release/netcoreapp3.1/*'
+          retention-days: 30
+
+  run_workflows:
+    runs-on: ubuntu-latest
+      steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: WorkflowRunnerFiles
+          path: 'WorkflowRunnerFiles'
+
+      - name: Download WorkflowRunner Files
+        run: |
+          cd WorkflowRunnerFiles
+          dotnet run -- -t ${{ secrets.GOOGLE_DRIVE_SECRET }} -r ${{ github.event.workflow_run.head_branch }}

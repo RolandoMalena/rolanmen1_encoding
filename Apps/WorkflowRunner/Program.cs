@@ -16,6 +16,7 @@ namespace WorkflowRunner
         static int Run(Options opts)
         {
             Console.WriteLine(opts.Token);
+            Console.WriteLine(opts.Ref);
 
             return 0;
         }
