@@ -60,4 +60,4 @@ jobs:
     - name: Run Workflows
       run: |
         cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${ GITHUB_REF }
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }}
