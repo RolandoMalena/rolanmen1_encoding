@@ -66,7 +66,7 @@ namespace RemoteFileManager
 
         private static bool ParseArguments(string[] args)
         {
-            Func<BaseOptions, int> HandleOptions = new Func<BaseOptions, int>(opts =>
+            var HandleOptions = new Func<BaseOptions, int>(opts =>
             {
                 options = opts;
                 return 0;
