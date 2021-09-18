@@ -60,4 +60,4 @@ jobs:
     - name: Download WorkflowRunner Files
       run: |
         cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.GOOGLE_DRIVE_SECRET }} -r ${{ github.event.workflow_run.head_branch }}
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.event.workflow_run.head_branch }}
