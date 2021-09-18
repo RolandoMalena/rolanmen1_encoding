@@ -57,7 +57,7 @@ jobs:
         name: WorkflowRunnerFiles
         path: 'WorkflowRunnerFiles'
 
-    - name: Download WorkflowRunner Files
+    - name: Run Workflows
       run: |
         cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.event.workflow_run.head_branch }}
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${ GITHUB_REF }
