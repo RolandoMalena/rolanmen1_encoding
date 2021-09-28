@@ -9,5 +9,8 @@ namespace WorkflowRunner
 
         [Option('r', "ref", Required = true, HelpText = "Github Ref or Branch Name.")]
         public string Ref { get; set; }
+
+        [Option('w', "workflow", Required = true, HelpText = "ID of the Github Workflow to run.")]
+        public long Workflow { get; set; }
     }
 }

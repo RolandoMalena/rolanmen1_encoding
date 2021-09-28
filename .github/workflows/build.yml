@@ -57,7 +57,12 @@ jobs:
         name: WorkflowRunnerFiles
         path: 'WorkflowRunnerFiles'
 
-    - name: Run Workflows
+    - name: Run Encode Workflow
       run: |
         cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }}
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }} -w encode
+
+    - name: Run Merge Workflow
+      run: |
+        cd WorkflowRunnerFiles
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }} -w merge
