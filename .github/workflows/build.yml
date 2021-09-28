@@ -60,9 +60,9 @@ jobs:
     - name: Run Encode Workflow
       run: |
         cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }} -w encode
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }} -w ${{ secrets.ENCODE_WORKFLOW_ID }}
 
     - name: Run Merge Workflow
       run: |
         cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }} -w merge
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }} -w ${{ secrets.JOIN_WORKFLOW_ID }}
