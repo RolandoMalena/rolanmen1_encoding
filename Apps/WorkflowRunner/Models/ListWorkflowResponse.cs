@@ -6,9 +6,9 @@ namespace WorkflowRunner.Models
   public class ListWorkflowResponse
     {
         [JsonProperty("total_count")]
-        public int TotalCount { get; set; }
+        public int total_count { get; set; }
 
         [JsonProperty("workflow_runs")]
-        public IList<WorkflowRun> WorkflowRuns { get; set; }
+        public IList<WorkflowRun> workflow_runs { get; set; }
     }
 }

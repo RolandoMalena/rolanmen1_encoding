@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WorkflowRunner": {
+      "commandName": "Project",
+      "commandLineArgs": "-t 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 -r refs/heads/created-workflow-runner-app -w 12430796"
+    }
+  }
+}

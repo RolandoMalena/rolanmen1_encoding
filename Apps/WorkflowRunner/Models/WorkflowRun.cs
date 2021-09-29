@@ -2,7 +2,8 @@ namespace WorkflowRunner.Models
 {
     public class WorkflowRun
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public long id { get; set; }
+        public string status { get; set; }
+        public string conclusion { get; set; }
     }
 }
