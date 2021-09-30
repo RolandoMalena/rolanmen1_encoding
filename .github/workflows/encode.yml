@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         clip: ["clip1", "clip2"]
-        segment: [1, 2, 3]
+        segment: [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -63,7 +63,7 @@ jobs:
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
-          ./ScriptSegmentation.exe 3 ../Encoding/final.avs ../Encoding/Segments
+          ./ScriptSegmentation.exe 20 ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Clip Segment
         run: |
