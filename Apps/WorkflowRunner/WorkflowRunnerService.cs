@@ -39,7 +39,7 @@ namespace WorkflowRunner
         {
             long runId;
             int retryCount = 0;
-            int maxRetryCount = 20;
+            int maxRetryCount = 200;
 
             var oldList = await GetWorkflowList(cancellationToken);
             await CreateWorkflowRun(cancellationToken);
