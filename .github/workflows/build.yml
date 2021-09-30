@@ -39,3 +39,30 @@ jobs:
           name: 'RemoteFileManagerFiles'
           path: 'Apps/RemoteFileManager/bin/Release/netcoreapp3.1/*'
           retention-days: 30
+
+      - name: 'Upload WorkflowRunner Files'
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: 'WorkflowRunnerFiles'
+          path: 'Apps/WorkflowRunner/bin/Release/netcoreapp3.1/*'
+          retention-days: 30
+
+  run_workflows:
+    runs-on: windows-2019
+    needs: build_apps
+    steps:
+    - name: Download WorkflowRunner Files
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: WorkflowRunnerFiles
+        path: 'WorkflowRunnerFiles'
+
+    - name: Run Encode Workflow
+      run: |
+        cd WorkflowRunnerFiles
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }} -w ${{ secrets.ENCODE_WORKFLOW_ID }}
+
+    - name: Run Merge Workflow
+      run: |
+        cd WorkflowRunnerFiles
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.ref }} -w ${{ secrets.JOIN_WORKFLOW_ID }}

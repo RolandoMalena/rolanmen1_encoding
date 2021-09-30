@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteFileManager", "Remote
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptSegmentation", "ScriptSegmentation\ScriptSegmentation.csproj", "{161C12CB-E6CD-432B-BCF7-3779DECE3B4F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkflowRunner", "WorkflowRunner\WorkflowRunner.csproj", "{F46ACA08-6475-428C-B3C1-8DC11A05D8C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{161C12CB-E6CD-432B-BCF7-3779DECE3B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{161C12CB-E6CD-432B-BCF7-3779DECE3B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{161C12CB-E6CD-432B-BCF7-3779DECE3B4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46ACA08-6475-428C-B3C1-8DC11A05D8C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46ACA08-6475-428C-B3C1-8DC11A05D8C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46ACA08-6475-428C-B3C1-8DC11A05D8C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46ACA08-6475-428C-B3C1-8DC11A05D8C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
