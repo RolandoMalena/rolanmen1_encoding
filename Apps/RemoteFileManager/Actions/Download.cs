@@ -2,6 +2,7 @@
 using Google.Apis.Drive.v3;
 using RemoteFileManager.Options;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -20,10 +21,7 @@ namespace RemoteFileManager.Actions
             if (remotePath == null || remotePath == ".")
                 remotePath = string.Empty;
 
-            var files = (await service.Files.List().ExecuteAsync())
-                .Files
-                .Where(f => f.MimeType != Constants.MimeTypes.Folder)
-                .ToList();
+            var files = await GetFileList(service);
 
             if (remotePath == string.Empty)
                 files = files.Where(f => !f.Name.Contains("/")).ToList();
@@ -52,6 +50,28 @@ namespace RemoteFileManager.Actions
                         Console.WriteLine($"File download failed with message: {result.Exception.Message}");
                 }
             }
+        }
+
+        private static async Task<IList<Google.Apis.Drive.v3.Data.File>> GetFileList(DriveService service)
+        {
+            string nextPageToken = null;
+            var fileList = new List<Google.Apis.Drive.v3.Data.File>();
+
+            while (true)
+            {
+                var fileRequest = service.Files.List();
+                fileRequest.PageToken = nextPageToken;
+
+                var response = await fileRequest.ExecuteAsync();
+                fileList.AddRange(response.Files
+                    .Where(f => f.MimeType != Constants.MimeTypes.Folder));
+
+                nextPageToken = response.NextPageToken;
+                if (nextPageToken == null)
+                    break;
+            }
+
+            return fileList;
         }
     }
 }

@@ -3,6 +3,7 @@ using Google.Apis.Upload;
 using RemoteFileManager.ExtensionMethods;
 using RemoteFileManager.Options;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -59,8 +60,7 @@ namespace RemoteFileManager.Actions
 
         private static async Task CreateFolder(DriveService service, string remotePath)
         {
-            var files = (await service.Files.List().ExecuteAsync())
-                .Files
+            var files = (await GetFileList(service))
                 .Where(f => f.Name == remotePath && f.MimeType == Constants.MimeTypes.Folder)
                 .ToList();
 
@@ -86,8 +86,7 @@ namespace RemoteFileManager.Actions
 
         private static async Task DeleteFileIfExists(DriveService service, string fileName)
         {
-            var files = (await service.Files.List().ExecuteAsync())
-                .Files
+            var files = (await GetFileList(service))
                 .Where(f => f.Name == fileName)
                 .ToList();
 
@@ -97,6 +96,27 @@ namespace RemoteFileManager.Actions
             Console.WriteLine($"Found {files.Count} file(s). Deleting file(s).");
             foreach(var f in files)
                 await service.Files.Delete(f.Id).ExecuteAsync();
+        }
+
+        private static async Task<IList<Google.Apis.Drive.v3.Data.File>> GetFileList(DriveService service)
+        {
+            string nextPageToken = null;
+            var fileList = new List<Google.Apis.Drive.v3.Data.File>();
+
+            while (true)
+            {
+                var fileRequest = service.Files.List();
+                fileRequest.PageToken = nextPageToken;
+
+                var response = await fileRequest.ExecuteAsync();
+                fileList.AddRange(response.Files);
+
+                nextPageToken = response.NextPageToken;
+                if (nextPageToken == null)
+                    break;
+            }
+
+            return fileList;
         }
     }
 }
