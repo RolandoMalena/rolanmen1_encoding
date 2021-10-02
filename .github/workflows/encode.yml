@@ -30,7 +30,6 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          workflow_conclusion: completed
           branch: ${{ github.ref }}
       
       - name: Download Google Drive Credentials
@@ -91,7 +90,6 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          workflow_conclusion: completed
           branch: ${{ github.ref }}
       
       - name: Download Google Drive Credentials
