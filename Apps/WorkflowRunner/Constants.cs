@@ -4,6 +4,7 @@
     {
         public class WorkflowRunStatus
         {
+            public const string Queued = "queued";
             public const string InProgress = "in_progress";
             public const string Completed = "completed";
         }

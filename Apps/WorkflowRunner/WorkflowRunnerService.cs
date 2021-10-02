@@ -64,9 +64,10 @@ namespace WorkflowRunner
                 WaitSeconds(10);
                 var run = await GetWorkflowRun(runId, cancellationToken);
 
-                if (run.status != Constants.WorkflowRunStatus.InProgress)
+                if (run.status != Constants.WorkflowRunStatus.Queued && run.status != Constants.WorkflowRunStatus.InProgress)
                 {
                     Console.WriteLine($"Workflow run is no longer running. Conclusion = {run.conclusion}");
+                    Console.WriteLine($"Workflow run URL: {run.html_url}");
 
                     if (run.conclusion != Constants.WorkflowRunConclusion.Success)
                         throw new ApplicationException($"Workflow run completed with Conclusion: {run.conclusion}");
