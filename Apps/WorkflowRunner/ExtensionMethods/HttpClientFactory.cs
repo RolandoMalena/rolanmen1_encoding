@@ -36,7 +36,15 @@ namespace WorkflowRunner.ExtensionMethods
             var response = await client.SendAsync(request, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine($"Error response retrieved with status code {response.StatusCode} ({(int)response.StatusCode}).");
+                if (!string.IsNullOrWhiteSpace(responseBody))
+                    Console.WriteLine(responseBody);
+
                 throw new HttpResponseException(response);
+            }
 
             return response;
         }

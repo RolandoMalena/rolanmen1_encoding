@@ -6,15 +6,14 @@ on:
 jobs:
   encode_footage:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
-        clip: ["clip1", "clip2"]
-        segment: [1, 2, 3]
+        clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
+        segment: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.workflow_run.head_branch }}
+          ref: ${{ github.ref }}
       
       - name: Download ScriptSegmentation Files
         uses: dawidd6/action-download-artifact@v2
@@ -23,7 +22,7 @@ jobs:
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: ${{ github.event.workflow_run.head_branch }}
+          branch: ${{ github.ref }}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -32,7 +31,7 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: ${{ github.event.workflow_run.head_branch }}
+          branch: ${{ github.ref }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -63,7 +62,7 @@ jobs:
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
-          ./ScriptSegmentation.exe 3 ../Encoding/final.avs ../Encoding/Segments
+          ./ScriptSegmentation.exe 4 ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Clip Segment
         run: |
@@ -78,14 +77,13 @@ jobs:
 
   normalize_audio:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
-        clip: ["clip1", "clip2"]
+        clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.workflow_run.head_branch }}
+          ref: ${{ github.ref }}
 
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -94,7 +92,7 @@ jobs:
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
           workflow_conclusion: completed
-          branch: ${{ github.event.workflow_run.head_branch }}
+          branch: ${{ github.ref }}
       
       - name: Download Google Drive Credentials
         run: |
