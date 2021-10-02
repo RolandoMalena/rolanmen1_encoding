@@ -6,10 +6,9 @@ on:
 jobs:
   merge_files:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
-        clip: ["clip1", "clip2"]
+        clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
     steps:
       - uses: actions/checkout@v2
         with:

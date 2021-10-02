@@ -6,10 +6,9 @@ on:
 jobs:
   encode_footage:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
-        clip: ["clip6"]
+        clip: ["clip1"]
         segment: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     steps:
       - uses: actions/checkout@v2
@@ -78,10 +77,9 @@ jobs:
 
   normalize_audio:
     runs-on: windows-2019
-    if: ${{ github.event.workflow_run.conclusion == '' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
-        clip: ["clip4"]
+        clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
     steps:
       - uses: actions/checkout@v2
         with:
