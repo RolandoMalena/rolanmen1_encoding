@@ -25,15 +25,14 @@ namespace RemoteFileManager.Actions
 
                 var response = await fileRequest.ExecuteAsync();
                 fileList.AddRange(response.Files
-                    .Where(f => f.MimeType != Constants.MimeTypes.Folder && Regex.IsMatch(f.Name, opts.Regex))
-                    .OrderBy(f => f.Name));
+                    .Where(f => f.MimeType != Constants.MimeTypes.Folder && Regex.IsMatch(f.Name, opts.Regex)));
 
                 nextPageToken = response.NextPageToken;
                 if (nextPageToken == null)
                     break;
             }
             
-            foreach (var file in fileList)
+            foreach (var file in fileList.OrderBy(f => f.Name))
                 Console.WriteLine($"{file.Name}: {file.Size.Format()}.");
         }
     }

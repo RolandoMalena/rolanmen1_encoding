@@ -8,8 +8,8 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        clip: ["clip1"]
-        segment: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+        clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
+        segment: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -62,7 +62,7 @@ jobs:
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
-          ./ScriptSegmentation.exe 20 ../Encoding/final.avs ../Encoding/Segments
+          ./ScriptSegmentation.exe 4 ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Clip Segment
         run: |
