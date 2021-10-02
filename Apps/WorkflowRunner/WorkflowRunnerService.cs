@@ -88,13 +88,24 @@ namespace WorkflowRunner
         {
             Console.WriteLine("Retrieving list of Runs.");
             var runs = new List<WorkflowRun>();
+
+            runs.AddRange(await PerformWorkflowListRequest(Constants.WorkflowRunStatus.Queued, cancellationToken));
+            runs.AddRange(await PerformWorkflowListRequest(Constants.WorkflowRunStatus.InProgress, cancellationToken));
+
+            Console.WriteLine($"Retrieved {runs.Count} runs.");
+            return runs;
+        }
+
+        private async Task<IList<WorkflowRun>> PerformWorkflowListRequest(string status, CancellationToken cancellationToken = default)
+        {
+            var runs = new List<WorkflowRun>();
             int currentPage = 0;
 
             var baseUrl = string.Format(ListBaseUrl, _workflow);
             var parameters =
                 $"branch={_ref.Split('/').Last()}" +
                 "&event=workflow_dispatch" +
-                $"&status={Constants.WorkflowRunStatus.InProgress}" +
+                $"&status={status}" +
                 $"&per_page={ListPageSize}" +
                 "&page=";
 
@@ -104,7 +115,7 @@ namespace WorkflowRunner
                 string url = $"{baseUrl}?{parameters}{currentPage}";
 
                 var responseBody = await _httpClientFactory.MakeRequest<ListWorkflowResponse>(HttpMethod.Get, url, _token, cancellationToken);
-                
+
                 if (responseBody.workflow_runs != null)
                     runs.AddRange(responseBody.workflow_runs);
 
@@ -112,7 +123,6 @@ namespace WorkflowRunner
                     break;
             }
 
-            Console.WriteLine($"Retrieved {runs.Count} runs.");
             return runs;
         }
 
