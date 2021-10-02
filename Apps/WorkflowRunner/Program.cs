@@ -1,6 +1,7 @@
 ﻿using HttpClientFactoryLite;
 using CommandLine;
 using System.Threading.Tasks;
+using System;
 
 namespace WorkflowRunner
 {
@@ -16,6 +17,11 @@ namespace WorkflowRunner
 
         static async Task<int> Run(Options opts)
         {
+            Console.WriteLine("Starting Workflow Runner app.");
+            Console.WriteLine($"Token: {opts.Token}");
+            Console.WriteLine($"Ref: {opts.Ref}");
+            Console.WriteLine($"Workflow: {opts.Workflow}");
+
             var service = new WorkflowRunnerService(new HttpClientFactory(), opts.Token, opts.Ref, opts.Workflow);
             await service.RunWorkflowAsync();
 
