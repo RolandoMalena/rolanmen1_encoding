@@ -20,7 +20,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          workflow_conclusion: ['in_progress', 'completed']
+          workflow_conclusion: in_progress
           branch: ${{ github.ref }}
 
       - name: Download Google Drive Credentials
