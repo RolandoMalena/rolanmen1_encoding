@@ -21,7 +21,7 @@ jobs:
           name: ScriptSegmentationFiles
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
-          workflow_conclusion: in_progress
+          run_id: 3785721240
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -29,7 +29,6 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          workflow_conclusion: in_progress
       
       - name: Download Google Drive Credentials
         run: |
@@ -89,7 +88,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          workflow_conclusion: in_progress
+          run_id: 3785721240
       
       - name: Download Google Drive Credentials
         run: |
