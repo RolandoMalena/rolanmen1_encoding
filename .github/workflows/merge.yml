@@ -3,6 +3,11 @@ name: Join
 on:
   workflow_dispatch:
 
+inputs:
+  triggering_run_id:
+    description: 'Workflow Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
+    required: false
+
 jobs:
   merge_files:
     runs-on: windows-2019
@@ -20,7 +25,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          workflow_conclusion: in_progress
+          run_id: ${{ inputs.triggering_run_id }}
 
       - name: Download Google Drive Credentials
         run: |

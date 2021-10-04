@@ -12,5 +12,8 @@ namespace WorkflowRunner
 
         [Option('w', "workflow", Required = true, HelpText = "ID of the Github Workflow to run.")]
         public long Workflow { get; set; }
+
+        [Option('i', "inputs", Required = false, HelpText = "Inputs data to send to Workflow.")]
+        public string Inputs { get; set; }
     }
 }

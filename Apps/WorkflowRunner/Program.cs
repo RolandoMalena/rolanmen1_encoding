@@ -21,6 +21,7 @@ namespace WorkflowRunner
             Console.WriteLine($"Token: {opts.Token}");
             Console.WriteLine($"Ref: {opts.Ref}");
             Console.WriteLine($"Workflow: {opts.Workflow}");
+            Console.WriteLine($"Inputs: {opts.Inputs}");
 
             var service = new WorkflowRunnerService(new HttpClientFactory(), opts.Token, opts.Ref, opts.Workflow);
             await service.RunWorkflowAsync();
