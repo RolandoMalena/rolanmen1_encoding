@@ -52,8 +52,6 @@ jobs:
   run_workflows:
     runs-on: windows-2019
     needs: build_apps
-    env:
-      run_id: {{ github.run_id }}
     steps:
     - name: Download WorkflowRunner Files
       uses: actions/download-artifact@v2.0.10
@@ -64,9 +62,9 @@ jobs:
     - name: Run Encode Workflow
       run: |
         cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.head_ref || github.ref }} -w ${{ secrets.ENCODE_WORKFLOW_ID }} --input1 triggering_run_id=$run_id
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.head_ref || github.ref }} -w ${{ secrets.ENCODE_WORKFLOW_ID }} --input1 triggering_run_id=${{ github.run_id }}
 
     - name: Run Merge Workflow
       run: |
         cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.head_ref || github.ref }} -w ${{ secrets.JOIN_WORKFLOW_ID }} --input1 triggering_run_id=$run_id
+        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.head_ref || github.ref }} -w ${{ secrets.JOIN_WORKFLOW_ID }} --input1 triggering_run_id=${{ github.run_id }}
