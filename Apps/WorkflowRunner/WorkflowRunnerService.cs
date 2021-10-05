@@ -139,7 +139,7 @@ namespace WorkflowRunner
                 inputs = new Dictionary<string, string>()
             };
 
-            foreach (var kvp in _inputs)
+            foreach (var kvp in _inputs.Where(i => i != null))
             {
                 var parts = kvp.Split('=');
                 var key = parts.FirstOrDefault();
