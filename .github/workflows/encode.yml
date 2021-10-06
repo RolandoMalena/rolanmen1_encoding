@@ -2,11 +2,10 @@ name: Encode
 
 on:
   workflow_dispatch:
-
-inputs:
-  triggering_run_id:
-    description: 'Workflow Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
-    required: false
+    inputs:
+      triggering_run_id:
+        description: 'Workflow Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
+        required: false
 
 jobs:
   encode_footage:
