@@ -48,23 +48,10 @@ jobs:
           name: 'WorkflowRunnerFiles'
           path: 'Apps/WorkflowRunner/bin/Release/netcoreapp3.1/*'
           retention-days: 30
-
-  run_workflows:
-    runs-on: windows-2019
-    needs: build_apps
-    steps:
-    - name: Download WorkflowRunner Files
-      uses: actions/download-artifact@v2.0.10
-      with:
-        name: WorkflowRunnerFiles
-        path: 'WorkflowRunnerFiles'
-
-    - name: Run Encode Workflow
-      run: |
-        cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.head_ref || github.ref }} -w ${{ secrets.ENCODE_WORKFLOW_ID }} --input1 triggering_run_id=${{ github.run_id }}
-
-    - name: Run Merge Workflow
-      run: |
-        cd WorkflowRunnerFiles
-        ./WorkflowRunner.exe -t ${{ secrets.OAUTH_TOKEN }} -r ${{ github.head_ref || github.ref }} -w ${{ secrets.JOIN_WORKFLOW_ID }} --input1 triggering_run_id=${{ github.run_id }}
+      
+      - name: 'Dispatch Encode Workflow'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
+          token: ${{ secrets.OAUTH_TOKEN }}
+          ref: ${{ github.ref }}
