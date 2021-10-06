@@ -54,4 +54,4 @@ jobs:
         with:
           workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
-          ref: ${{ github.ref }}
+          ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
