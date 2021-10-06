@@ -3,6 +3,11 @@ name: Encode
 on:
   workflow_dispatch:
 
+inputs:
+  triggering_run_id:
+    description: 'Workflow Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
+    required: false
+
 jobs:
   encode_footage:
     runs-on: windows-2019
@@ -21,8 +26,7 @@ jobs:
           name: ScriptSegmentationFiles
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
-          workflow_conclusion: completed
-          branch: ${{ github.ref }}
+          run_id: ${{ inputs.triggering_run_id }}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -30,8 +34,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          workflow_conclusion: completed
-          branch: ${{ github.ref }}
+          run_id: ${{ inputs.triggering_run_id }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -91,8 +94,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          workflow_conclusion: completed
-          branch: ${{ github.ref }}
+          run_id: ${{ inputs.triggering_run_id }}
       
       - name: Download Google Drive Credentials
         run: |

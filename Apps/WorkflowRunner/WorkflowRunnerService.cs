@@ -20,6 +20,7 @@ namespace WorkflowRunner
         private readonly string _token;
         private readonly string _ref;
         private readonly long _workflow;
+        private readonly string[] _inputs;
 
         private const string ListBaseUrl = "https://api.github.com/repos/RolandoMalena/rolanmen1_encoding/actions/workflows/{0}/runs";
         private const int ListPageSize = 100;
@@ -27,12 +28,13 @@ namespace WorkflowRunner
         private const string GetBaseUrl = "https://api.github.com/repos/RolandoMalena/rolanmen1_encoding/actions/runs/{0}";
         private const string PostBaseUrl = "https://api.github.com/repos/RolandoMalena/rolanmen1_encoding/actions/workflows/{0}/dispatches";
 
-        public WorkflowRunnerService(HttpClientFactoryLite.IHttpClientFactory httpClientFactory, string token, string @ref, long workflow)
+        public WorkflowRunnerService(HttpClientFactoryLite.IHttpClientFactory httpClientFactory, string token, string @ref, long workflow, string[] inputs)
         {
             _httpClientFactory = httpClientFactory;
             _token = token;
             _ref = @ref;
             _workflow = workflow;
+            _inputs = inputs;
         }
 
         public async Task RunWorkflowAsync(CancellationToken cancellationToken = default)
@@ -88,13 +90,24 @@ namespace WorkflowRunner
         {
             Console.WriteLine("Retrieving list of Runs.");
             var runs = new List<WorkflowRun>();
+
+            runs.AddRange(await PerformWorkflowListRequest(Constants.WorkflowRunStatus.Queued, cancellationToken));
+            runs.AddRange(await PerformWorkflowListRequest(Constants.WorkflowRunStatus.InProgress, cancellationToken));
+
+            Console.WriteLine($"Retrieved {runs.Count} runs.");
+            return runs;
+        }
+
+        private async Task<IList<WorkflowRun>> PerformWorkflowListRequest(string status, CancellationToken cancellationToken = default)
+        {
+            var runs = new List<WorkflowRun>();
             int currentPage = 0;
 
             var baseUrl = string.Format(ListBaseUrl, _workflow);
             var parameters =
                 $"branch={_ref.Split('/').Last()}" +
                 "&event=workflow_dispatch" +
-                $"&status={Constants.WorkflowRunStatus.InProgress}" +
+                $"&status={status}" +
                 $"&per_page={ListPageSize}" +
                 "&page=";
 
@@ -104,7 +117,7 @@ namespace WorkflowRunner
                 string url = $"{baseUrl}?{parameters}{currentPage}";
 
                 var responseBody = await _httpClientFactory.MakeRequest<ListWorkflowResponse>(HttpMethod.Get, url, _token, cancellationToken);
-                
+
                 if (responseBody.workflow_runs != null)
                     runs.AddRange(responseBody.workflow_runs);
 
@@ -112,7 +125,6 @@ namespace WorkflowRunner
                     break;
             }
 
-            Console.WriteLine($"Retrieved {runs.Count} runs.");
             return runs;
         }
 
@@ -123,8 +135,25 @@ namespace WorkflowRunner
             var url = string.Format(PostBaseUrl, _workflow);
             var body = new PostWorkflowRequest()
             {
-                @ref = _ref
+                @ref = _ref,
+                inputs = new Dictionary<string, string>()
             };
+
+            foreach (var kvp in _inputs.Where(i => i != null))
+            {
+                var parts = kvp.Split('=');
+                var key = parts.FirstOrDefault();
+
+                if (string.IsNullOrWhiteSpace(key))
+                    continue;
+
+                var value = string.Empty;
+
+                if (parts.Length > 1)
+                    value = string.Join("=", parts.Skip(1));
+
+                body.inputs.Add(key, value);
+            }
 
             await _httpClientFactory.MakeRequest(HttpMethod.Post, url, _token, body, cancellationToken);
 
