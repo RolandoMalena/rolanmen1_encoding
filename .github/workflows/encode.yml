@@ -20,7 +20,7 @@ jobs:
 
   encode_footage:
     runs-on: windows-2019
-    depends: send_status_check
+    needs: send_status_check
     strategy:
       matrix:
         clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
@@ -89,7 +89,7 @@ jobs:
           ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" ${{matrix.segment}}.mkv
 
   normalize_audio:
-    depends: send_status_check
+    needs: send_status_check
     runs-on: windows-2019
     strategy:
       matrix:
