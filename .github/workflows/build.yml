@@ -11,14 +11,15 @@ jobs:
   build_apps:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v2
-
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Build Apps
           status: 'in_progress'
+          details_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - uses: actions/checkout@v2
 
       - name: Setup .NET Core SDK 3.1
         uses: actions/setup-dotnet@v1.7.2
@@ -61,7 +62,7 @@ jobs:
         with:
           workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
-          ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
+          ref: ${{ github.sha }}
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
@@ -70,3 +71,4 @@ jobs:
           name: Build Apps
           status: 'completed'
           conclusion: ${{ job.status }}
+          details_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
