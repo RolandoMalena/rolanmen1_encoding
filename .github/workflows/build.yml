@@ -61,6 +61,7 @@ jobs:
         with:
           workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()

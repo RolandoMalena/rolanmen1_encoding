@@ -2,10 +2,25 @@ name: Encode
 
 on:
   workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'Commit SHA-1 that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
+        required: false
 
 jobs:
+  send_status_check:
+    runs-on: windows-2019
+    steps:
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Encode Files
+          status: 'in_progress'
+
   encode_footage:
     runs-on: windows-2019
+    depends: send_status_check
     strategy:
       matrix:
         clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
@@ -21,7 +36,7 @@ jobs:
           name: ScriptSegmentationFiles
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
-          run_id: ${{ inputs.triggering_run_id }}
+          commit: ${{ inputs.commit_sha }}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -29,7 +44,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          run_id: ${{ inputs.triggering_run_id }}
+          commit: ${{ inputs.commit_sha }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -74,6 +89,7 @@ jobs:
           ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" ${{matrix.segment}}.mkv
 
   normalize_audio:
+    depends: send_status_check
     runs-on: windows-2019
     strategy:
       matrix:
@@ -89,7 +105,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          run_id: ${{ inputs.triggering_run_id }}
+          commit: ${{ inputs.commit_sha }}
       
       - name: Download Google Drive Credentials
         run: |
