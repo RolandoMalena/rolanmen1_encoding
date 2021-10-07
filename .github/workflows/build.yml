@@ -17,7 +17,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Build Apps
           status: 'in_progress'
-          details_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - uses: actions/checkout@v2
 
@@ -62,7 +61,6 @@ jobs:
         with:
           workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
-          ref: ${{ github.sha }}
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
@@ -71,4 +69,3 @@ jobs:
           name: Build Apps
           status: 'completed'
           conclusion: ${{ job.status }}
-          details_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
