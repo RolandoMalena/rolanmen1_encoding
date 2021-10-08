@@ -3,8 +3,8 @@ name: Join
 on:
   workflow_dispatch:
     inputs:
-      commit_sha:
-        description: 'Commit SHA-1 that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
+      run_id:
+        description: 'Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
         required: false
 
 jobs:
@@ -35,7 +35,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          commit: ${{ github.event.inputs.commit_sha }}
+          run_id: ${{ github.event.inputs.run_id }}
 
       - name: Download Google Drive Credentials
         run: |
@@ -68,6 +68,7 @@ jobs:
   send_final_status_check:
     runs-on: windows-2019
     needs: merge_files
+    if: always()
     steps:
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
