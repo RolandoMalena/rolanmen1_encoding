@@ -17,6 +17,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Encode Files
           status: 'in_progress'
+      
+      - name: Sleep for 60 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '60s'
 
   encode_footage:
     runs-on: windows-2019
