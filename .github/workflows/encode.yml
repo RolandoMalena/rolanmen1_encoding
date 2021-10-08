@@ -36,7 +36,7 @@ jobs:
           name: ScriptSegmentationFiles
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
-          commit: ${{ inputs.commit_sha }}
+          commit: ${{ on.workflow_dispatch.inputs.commit_sha }}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -44,7 +44,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          commit: ${{ inputs.commit_sha }}
+          commit: ${{ on.workflow_dispatch.inputs.commit_sha }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -105,7 +105,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          commit: ${{ inputs.commit_sha }}
+          commit: ${{ on.workflow_dispatch.inputs.commit_sha }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -153,3 +153,23 @@ jobs:
         run: |
           cd RemoteFileManagerFiles
           ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" audio.wav
+
+  send_final_status_check:
+    runs-on: windows-2019
+    needs: ['encode_footage', 'normalize_audio']
+    steps:
+      - name: 'Dispatch Join Workflow'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: ${{ secrets.JOIN_WORKFLOW_ID }}
+          token: ${{ secrets.OAUTH_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
+          inputs: '{ "commit_sha": "${{ on.workflow_dispatch.inputs.commit_sha }}" }'
+      
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Encode Files
+          status: 'completed'
+          conclusion: ${{ job.status }}
