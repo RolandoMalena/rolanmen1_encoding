@@ -19,9 +19,7 @@ jobs:
           status: 'in_progress'
       
       - name: Sleep for 60 seconds
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '60s'
+        run: Start-Sleep -s 60
 
   encode_footage:
     runs-on: windows-2019
