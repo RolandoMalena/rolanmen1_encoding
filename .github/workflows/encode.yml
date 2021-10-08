@@ -17,9 +17,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Encode Files
           status: 'in_progress'
-      
-      - name: Sleep for 60 seconds
-        run: Start-Sleep -s 60
 
   encode_footage:
     runs-on: windows-2019
@@ -168,7 +165,7 @@ jobs:
           workflow: ${{ secrets.JOIN_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
-          inputs: '{ "commit_sha": "${{ github.event.inputs.commit_sha }}" }'
+          inputs: '{ "run_id": "${{ github.run_id }}" }'
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
