@@ -36,7 +36,7 @@ jobs:
           name: ScriptSegmentationFiles
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
-          commit: ${{ on.workflow_dispatch.inputs.commit_sha }}
+          commit: ${{ github.event.inputs.commit_sha }}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -44,7 +44,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          commit: ${{ on.workflow_dispatch.inputs.commit_sha }}
+          commit: ${{ github.event.inputs.commit_sha }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -105,7 +105,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          commit: ${{ on.workflow_dispatch.inputs.commit_sha }}
+          commit: ${{ github.event.inputs.commit_sha }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -164,7 +164,7 @@ jobs:
           workflow: ${{ secrets.JOIN_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
-          inputs: '{ "commit_sha": "${{ on.workflow_dispatch.inputs.commit_sha }}" }'
+          inputs: '{ "commit_sha": "${{ github.event.inputs.commit_sha }}" }'
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()

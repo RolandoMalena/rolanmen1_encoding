@@ -35,7 +35,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          run_id: ${{ inputs.triggering_run_id }}
+          commit: ${{ github.event.inputs.commit_sha }}
 
       - name: Download Google Drive Credentials
         run: |
