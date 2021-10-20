@@ -165,7 +165,7 @@ jobs:
           workflow: ${{ secrets.JOIN_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
-          inputs: '{ "run_id": "${{ github.run_id }}" }'
+          inputs: '{ "run_id": "${{ github.event.inputs.run_id }}" }'
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
