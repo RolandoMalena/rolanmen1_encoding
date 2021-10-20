@@ -2,15 +2,25 @@ name: Encode
 
 on:
   workflow_dispatch:
-
-inputs:
-  triggering_run_id:
-    description: 'Workflow Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
-    required: false
+    inputs:
+      run_id:
+        description: 'Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
+        required: false
 
 jobs:
+  send_status_check:
+    runs-on: windows-2019
+    steps:
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Encode Files
+          status: 'in_progress'
+
   encode_footage:
     runs-on: windows-2019
+    needs: send_status_check
     strategy:
       matrix:
         clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
@@ -26,7 +36,7 @@ jobs:
           name: ScriptSegmentationFiles
           path: 'ScriptSegmentationFiles'
           workflow: build.yml
-          run_id: ${{ inputs.triggering_run_id }}
+          run_id: ${{ github.event.inputs.run_id }}
         
       - name: Download RemoteFileManager Files
         uses: dawidd6/action-download-artifact@v2
@@ -34,7 +44,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          run_id: ${{ inputs.triggering_run_id }}
+          run_id: ${{ github.event.inputs.run_id }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -79,6 +89,7 @@ jobs:
           ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" ${{matrix.segment}}.mkv
 
   normalize_audio:
+    needs: send_status_check
     runs-on: windows-2019
     strategy:
       matrix:
@@ -94,7 +105,7 @@ jobs:
           name: RemoteFileManagerFiles
           path: 'RemoteFileManagerFiles'
           workflow: build.yml
-          run_id: ${{ inputs.triggering_run_id }}
+          run_id: ${{ github.event.inputs.run_id }}
       
       - name: Download Google Drive Credentials
         run: |
@@ -142,3 +153,24 @@ jobs:
         run: |
           cd RemoteFileManagerFiles
           ./RemoteFileManager.exe up ../Encoding/Output "${{matrix.clip}}" audio.wav
+
+  send_final_status_check:
+    runs-on: windows-2019
+    needs: ['encode_footage', 'normalize_audio']
+    if: always()
+    steps:
+      - name: 'Dispatch Join Workflow'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: ${{ secrets.JOIN_WORKFLOW_ID }}
+          token: ${{ secrets.OAUTH_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
+          inputs: '{ "run_id": "${{ github.event.inputs.run_id }}" }'
+      
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Encode Files
+          status: 'completed'
+          conclusion: ${{ job.status }}
