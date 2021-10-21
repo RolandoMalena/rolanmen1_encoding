@@ -48,13 +48,6 @@ jobs:
           name: 'RemoteFileManagerFiles'
           path: 'Apps/RemoteFileManager/bin/Release/netcoreapp3.1/*'
           retention-days: 30
-
-      - name: 'Upload WorkflowRunner Files'
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: 'WorkflowRunnerFiles'
-          path: 'Apps/WorkflowRunner/bin/Release/netcoreapp3.1/*'
-          retention-days: 30
       
       - name: 'Dispatch Encode Workflow'
         uses: benc-uk/workflow-dispatch@v1

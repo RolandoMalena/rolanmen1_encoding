@@ -23,7 +23,7 @@ jobs:
     needs: send_status_check
     strategy:
       matrix:
-        clip: ["clip1", "clip2", "clip3", "clip4", "clip5", "clip6"]
+        clip: ["clip1"]
     steps:
       - uses: actions/checkout@v2
         with:
