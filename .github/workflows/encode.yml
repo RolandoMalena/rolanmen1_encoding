@@ -83,7 +83,8 @@ jobs:
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
-          ./ScriptSegmentation.exe ${{length(fromJson(github.event.inputs.segments))}} ../Encoding/final.avs ../Encoding/Segments
+          $json = ConvertFrom-Json -InputObject '${{github.event.inputs.segments}}'
+          ./ScriptSegmentation.exe Object.keys($json).Length ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Clip Segment
         run: |
