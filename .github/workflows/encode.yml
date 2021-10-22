@@ -31,8 +31,8 @@ jobs:
     needs: send_status_check
     strategy:
       matrix:
-        clip: ${{fromJson(${{github.event.inputs.clips_to_encode}})}}
-        segment: ${{fromJson(${{github.event.inputs.segments}})}}
+        clip: ${{fromJson(github.event.inputs.clips_to_encode)}}
+        segment: ${{fromJson(github.event.inputs.segments)}}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -83,7 +83,7 @@ jobs:
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
-          ./ScriptSegmentation.exe ${{length(${{fromJson(${{github.event.inputs.segments}})}})}} ../Encoding/final.avs ../Encoding/Segments
+          ./ScriptSegmentation.exe ${{length(${{fromJson(github.event.inputs.segments)}})}} ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Clip Segment
         run: |
@@ -101,7 +101,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        clip: ${{fromJson(${{github.event.inputs.clips_to_encode}})}}
+        clip: ${{fromJson(github.event.inputs.clips_to_encode)}}
     steps:
       - uses: actions/checkout@v2
         with:

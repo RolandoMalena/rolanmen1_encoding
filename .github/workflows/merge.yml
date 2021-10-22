@@ -27,7 +27,7 @@ jobs:
     needs: send_status_check
     strategy:
       matrix:
-        clip: ${{fromJson(${{github.event.inputs.clips_to_encode}})}}
+        clip: ${{fromJson(github.event.inputs.clips_to_encode)}}
     steps:
       - uses: actions/checkout@v2
         with:
