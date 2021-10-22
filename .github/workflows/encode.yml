@@ -3,6 +3,14 @@ name: Encode
 on:
   workflow_dispatch:
     inputs:
+      clips_to_encode:
+        description: 'JSON string of clips to be encoded. If omitted will use a test clip.'
+        required: false
+        default: '["clip1"]'
+      segments:
+        description: 'JSON string of  the amount of segments to splice and encode each clip. Must be a set of sequential numbers starting from 1. If omitted splice into 15 segments.'
+        required: false
+        default: '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]'
       run_id:
         description: 'Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
         required: false
@@ -23,8 +31,8 @@ jobs:
     needs: send_status_check
     strategy:
       matrix:
-        clip: ["clip1"]
-        segment: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        clip: ${{fromJson(${{github.event.inputs.clips_to_encode}})}}
+        segment: ${{fromJson(${{github.event.inputs.segments}})}}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -75,7 +83,7 @@ jobs:
       - name: Run Script Segmentation app
         run: |
           cd ScriptSegmentationFiles
-          ./ScriptSegmentation.exe 10 ../Encoding/final.avs ../Encoding/Segments
+          ./ScriptSegmentation.exe ${{length(${{fromJson(${{github.event.inputs.segments}})}})}} ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Clip Segment
         run: |
@@ -93,7 +101,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        clip: ["clip1"]
+        clip: ${{fromJson(${{github.event.inputs.clips_to_encode}})}}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -165,7 +173,7 @@ jobs:
           workflow: ${{ secrets.JOIN_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
-          inputs: '{ "run_id": "${{ github.event.inputs.run_id }}" }'
+          inputs: '{ "clips_to_encode": "${{github.event.inputs.clips_to_encode}}", "run_id": "${{ github.event.inputs.run_id }}" }'
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
