@@ -84,7 +84,7 @@ jobs:
         run: |
           cd ScriptSegmentationFiles
           $json = ConvertFrom-Json -InputObject '${{github.event.inputs.segments}}'
-          ./ScriptSegmentation.exe Object.keys($json).Length ../Encoding/final.avs ../Encoding/Segments
+          ./ScriptSegmentation.exe $(Object.keys($json).Length) ../Encoding/final.avs ../Encoding/Segments
 
       - name: Encode Clip Segment
         run: |
