@@ -64,7 +64,7 @@ jobs:
           workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
-          inputs: '{ "clips_to_encode": ''${{github.event.inputs.clips_to_encode}}'', "segments": ''${{github.event.inputs.segments}}'', "run_id": "${{ github.run_id }}" }'
+          inputs: "{ 'clips_to_encode': '${{github.event.inputs.clips_to_encode}}', 'segments': '${{github.event.inputs.segments}}', 'run_id': '${{ github.run_id }}' }"
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
