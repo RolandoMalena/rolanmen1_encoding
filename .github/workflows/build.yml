@@ -58,13 +58,18 @@ jobs:
           path: 'Apps/RemoteFileManager/bin/Release/netcoreapp3.1/*'
           retention-days: 30
       
+      - name: Format Clips to Encode Input Parameter
+        run: |
+          $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
+          echo "::set-env name=formatted_clips::$clips"
+      
       - name: 'Dispatch Encode Workflow'
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
-          inputs: '{ "clips_to_encode": "${{fromJson(github.event.inputs.clips_to_encode)}}", "segments": "${{fromJson(github.event.inputs.segments)}}", "run_id": "${{ github.run_id }}" }'
+          inputs: '{ "clips_to_encode": "${{env.formatted_clips}}", "segments": "${{github.event.inputs.segments}}", "run_id": "${{ github.run_id }}" }'
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
