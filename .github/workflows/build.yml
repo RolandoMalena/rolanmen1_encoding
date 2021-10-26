@@ -60,10 +60,13 @@ jobs:
       
       - name: Format Clips to Encode Input Parameter
         run: |
-          echo '${{github.event.inputs.clips_to_encode}}'
-          echo "${{github.event.inputs.clips_to_encode}}"
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
           echo "formated_clips=$clips" >> $GITHUB_ENV
+
+      - name: Test
+        run: |
+          echo '${{github.event.inputs.clips_to_encode}}'
+          echo '${{env.formated_clips}}'
       
       - name: 'Dispatch Encode Workflow'
         uses: benc-uk/workflow-dispatch@v1
