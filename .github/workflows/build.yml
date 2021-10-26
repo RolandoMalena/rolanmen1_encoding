@@ -60,6 +60,8 @@ jobs:
       
       - name: Format Clips to Encode Input Parameter
         run: |
+          echo '${{github.event.inputs.clips_to_encode}}'
+          echo "${{github.event.inputs.clips_to_encode}}"
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
           echo "formated_clips=$clips" >> $GITHUB_ENV
       
