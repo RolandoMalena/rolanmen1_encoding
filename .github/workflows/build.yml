@@ -62,7 +62,6 @@ jobs:
         id: format-step
         shell: bash
         run: |
-          $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
           echo ::set-env name=HAVE_FILE::true
 
       - name: Test
