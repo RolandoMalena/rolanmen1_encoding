@@ -59,16 +59,16 @@ jobs:
       #     retention-days: 30
       
       - name: Format Clips to Encode Input Parameter
-        id: format_step
+        id: format-step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          Write-Output "::set-output name=formated_clips::$clips"
+          Write-Output "::set-output name=TEST::value"
 
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '${{steps.format_step.output.formated_clips}}'
-          echo "${{steps.format_step.output.formated_clips}}"
+          echo '${{steps.format-step.output.TEST}}'
+          echo "${{steps.format-step.output.TEST}}"
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
