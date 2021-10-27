@@ -62,7 +62,7 @@ jobs:
         id: format_step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          echo "::set-output name=formated_clips::$clips"
+          echo "::set-output name=formated_clips::test_value"
 
       - name: Test
         run: |
