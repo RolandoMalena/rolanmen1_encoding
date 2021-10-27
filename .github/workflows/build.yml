@@ -67,8 +67,9 @@ jobs:
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '$(agentBranchName)'
-          echo "$(agentBranchName)"
+          echo '$TEST'
+          echo "$TEST"
+          echo $TEST
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
