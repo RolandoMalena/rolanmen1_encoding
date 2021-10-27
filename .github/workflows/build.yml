@@ -60,11 +60,13 @@ jobs:
       
       - name: Format Clips to Encode Input Parameter
         id: format-step
+        shell: pwsh
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
           echo "::set-output name=production::true"
 
       - name: Test
+        shell: pwsh
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
           echo '${steps.format-step.outputs.production}'
