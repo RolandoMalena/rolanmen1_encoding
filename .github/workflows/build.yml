@@ -62,15 +62,13 @@ jobs:
         id: format-step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          echo "name=value" | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
+          echo "::set-output name=production::true"
 
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '${Env:name}'
-          echo "${Env:name}"
-          echo '${{ env.name }}'
-          echo "${{ env.name }}"
+          echo '${steps.format-step.outputs.production}'
+          echo "${steps.format-step.outputs.production}"
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
