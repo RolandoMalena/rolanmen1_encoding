@@ -69,6 +69,8 @@ jobs:
           echo '${{github.event.inputs.clips_to_encode}}'
           echo '${Env:environment}'
           echo "${Env:environment}"
+          echo '${{ env.environment }}'
+          echo "${{ env.environment }}"
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
