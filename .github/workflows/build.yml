@@ -60,17 +60,17 @@ jobs:
       
       - name: Format Clips to Encode Input Parameter
         id: format-step
-        shell: pwsh
+        shell: bash
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          echo "::set-output name=production::true"
+          echo ::set-env name=HAVE_FILE::true
 
       - name: Test
-        shell: pwsh
+        shell: bash
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '${steps.format-step.outputs.production}'
-          echo "${steps.format-step.outputs.production}"
+          echo '${env.HAVE_FILE}'
+          echo "${env.HAVE_FILE}"
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
