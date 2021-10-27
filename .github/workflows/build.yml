@@ -62,7 +62,7 @@ jobs:
         id: format-step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          Write-Host "##vso[task.setvariable variable=TEST;]value"
+          Write-Host "::set-output name=TEST::value"
 
       - name: Test
         run: |
