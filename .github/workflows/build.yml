@@ -62,13 +62,13 @@ jobs:
         id: format-step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          Write-Output "::set-output name=TEST::value"
+          Write-Host "##vso[task.setvariable variable=TEST;]value"
 
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '${{steps.format-step.output.TEST}}'
-          echo "${{steps.format-step.output.TEST}}"
+          echo '$(agentBranchName)'
+          echo "$(agentBranchName)"
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
