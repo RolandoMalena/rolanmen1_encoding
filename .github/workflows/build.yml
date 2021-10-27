@@ -19,6 +19,8 @@ on:
 jobs:
   build_apps:
     runs-on: windows-2019
+    outputs:
+      formated_clips: ${{ steps.format_step.outputs.clips }}
     steps:
       # - uses: LouisBrunner/checks-action@v1.1.1
       #   if: always()
@@ -62,12 +64,12 @@ jobs:
         id: format_step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          echo "::set-output name=formated_clips::test_value"
+          echo "::set-output name=clips::test_value"
 
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '${{needs.format_step.outputs.formated_clips}}'
+          echo '${{needs.build_apps.outputs.formated_clips}}'
           echo "${{needs.format_step.outputs.formated_clips}}"
       
       # - name: 'Dispatch Encode Workflow'
