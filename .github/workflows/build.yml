@@ -62,14 +62,14 @@ jobs:
         id: format-step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          Write-Host "::set-output name=TEST::value"
+          echo "DOCKER_IMAGE_NAME=my.docker.repo/awesome-image:release" >> $GITHUB_ENV
 
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '$TEST'
-          echo "$TEST"
-          echo $TEST
+          echo '${{env.DOCKER_IMAGE_NAME}}'
+          echo "${{env.DOCKER_IMAGE_NAME}}"
+          echo ${{env.DOCKER_IMAGE_NAME}}
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
