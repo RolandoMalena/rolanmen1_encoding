@@ -62,14 +62,13 @@ jobs:
         id: format-step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          echo "DOCKER_IMAGE_NAME=my.docker.repo/awesome-image:release" >> $GITHUB_ENV
+          echo "environment=development" >> $GITHUB_ENV
 
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '${{env.DOCKER_IMAGE_NAME}}'
-          echo "${{env.DOCKER_IMAGE_NAME}}"
-          echo ${{env.DOCKER_IMAGE_NAME}}
+          echo '${Env:environment}'
+          echo "${Env:environment}"
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
