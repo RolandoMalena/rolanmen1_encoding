@@ -62,15 +62,15 @@ jobs:
         id: format-step
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          echo "environment=development" >> $GITHUB_ENV
+          Add-Content -Path $env:GITHUB_ENV -Value "name=$value"
 
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '${Env:environment}'
-          echo "${Env:environment}"
-          echo '${{ env.environment }}'
-          echo "${{ env.environment }}"
+          echo '${Env:name}'
+          echo "${Env:name}"
+          echo '${{ env.name }}'
+          echo "${{ env.name }}"
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
