@@ -3,6 +3,10 @@ name: Join
 on:
   workflow_dispatch:
     inputs:
+      clips_to_encode:
+        description: 'JSON string of clips to be encoded. If omitted will use a test clip.'
+        required: false
+        default: '["clip1"]'
       run_id:
         description: 'Run ID that triggered this run. Used to get artifacts. If omitted will take from last successful run on master branch.'
         required: false
@@ -23,7 +27,7 @@ jobs:
     needs: send_status_check
     strategy:
       matrix:
-        clip: ["clip1"]
+        clip: ${{fromJson(github.event.inputs.clips_to_encode)}}
     steps:
       - uses: actions/checkout@v2
         with:

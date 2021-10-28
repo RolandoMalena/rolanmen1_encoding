@@ -1,11 +1,20 @@
 name: Build
 
 on:
-  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      clips_to_encode:
+        description: 'JSON string of clips to be encoded. If omitted will use a test clip.'
+        required: false
+        default: '["clip1"]'
+      segments:
+        description: 'JSON string of  the amount of segments to splice and encode each clip. Must be a set of sequential numbers starting from 1. If omitted splice into 15 segments.'
+        required: false
+        default: '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]'
 
 jobs:
   build_apps:
@@ -49,13 +58,20 @@ jobs:
           path: 'Apps/RemoteFileManager/bin/Release/netcoreapp3.1/*'
           retention-days: 30
       
+      - name: Escape Clips to Encode Input Parameter
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        run: |
+          $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
+          Write-Host ::set-env name=escaped_clips::$clips
+      
       - name: 'Dispatch Encode Workflow'
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
-          inputs: '{ "run_id": "${{ github.run_id }}" }'
+          inputs: '{ "clips_to_encode": "${{env.escaped_clips}}", "segments": "${{github.event.inputs.segments}}", "run_id": "${{ github.run_id }}" }'
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
