@@ -60,7 +60,6 @@ jobs:
       
       - name: Format Clips to Encode Input Parameter
         id: format-step
-        shell: bash
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
@@ -68,7 +67,6 @@ jobs:
           echo ::set-env name=HAVE_FILE::true
 
       - name: Test
-        shell: bash
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
           echo '${env.HAVE_FILE}'
