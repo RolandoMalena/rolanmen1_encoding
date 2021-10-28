@@ -20,43 +20,43 @@ jobs:
   build_apps:
     runs-on: windows-2019
     steps:
-      # - uses: LouisBrunner/checks-action@v1.1.1
-      #   if: always()
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     name: Build Apps
-      #     status: 'in_progress'
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Build Apps
+          status: 'in_progress'
 
-      # - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      # - name: Setup .NET Core SDK 3.1
-      #   uses: actions/setup-dotnet@v1.7.2
-      #   with:
-      #     dotnet-version: '3.1.x'
+      - name: Setup .NET Core SDK 3.1
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: '3.1.x'
       
-      # - name: Restore App Dependencies
-      #   run: |
-      #     cd ./Apps
-      #     dotnet restore
+      - name: Restore App Dependencies
+        run: |
+          cd ./Apps
+          dotnet restore
 
-      # - name: Build Apps
-      #   run: |
-      #     cd ./Apps
-      #     dotnet build --configuration Release --no-restore
+      - name: Build Apps
+        run: |
+          cd ./Apps
+          dotnet build --configuration Release --no-restore
       
-      # - name: 'Upload ScriptSegmentation Files'
-      #   uses: actions/upload-artifact@v2.2.4
-      #   with:
-      #     name: 'ScriptSegmentationFiles'
-      #     path: 'Apps/ScriptSegmentation/bin/Release/netcoreapp3.1/*'
-      #     retention-days: 30
+      - name: 'Upload ScriptSegmentation Files'
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: 'ScriptSegmentationFiles'
+          path: 'Apps/ScriptSegmentation/bin/Release/netcoreapp3.1/*'
+          retention-days: 30
       
-      # - name: 'Upload RemoteFileManager Files'
-      #   uses: actions/upload-artifact@v2.2.4
-      #   with:
-      #     name: 'RemoteFileManagerFiles'
-      #     path: 'Apps/RemoteFileManager/bin/Release/netcoreapp3.1/*'
-      #     retention-days: 30
+      - name: 'Upload RemoteFileManager Files'
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: 'RemoteFileManagerFiles'
+          path: 'Apps/RemoteFileManager/bin/Release/netcoreapp3.1/*'
+          retention-days: 30
       
       - name: Escape Clips to Encode Input Parameter
         env:
@@ -73,10 +73,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
           inputs: '{ "clips_to_encode": "${{env.escaped_clips}}", "segments": "${{github.event.inputs.segments}}", "run_id": "${{ github.run_id }}" }'
       
-      # - uses: LouisBrunner/checks-action@v1.1.1
-      #   if: always()
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     name: Build Apps
-      #     status: 'completed'
-      #     conclusion: ${{ job.status }}
+      - uses: LouisBrunner/checks-action@v1.1.1
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Build Apps
+          status: 'completed'
+          conclusion: ${{ job.status }}

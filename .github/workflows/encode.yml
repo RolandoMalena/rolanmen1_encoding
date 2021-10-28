@@ -169,10 +169,12 @@ jobs:
     needs: ['encode_footage', 'normalize_audio']
     if: always()
     steps:
-      - name: Format Clips to Encode Input Parameter
+      - name: Escape Clips to Encode Input Parameter
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          echo "formated_clips=$clips" >> $GITHUB_ENV
+          Write-Host ::set-env name=escaped_clips::$clips
 
       - name: 'Dispatch Join Workflow'
         uses: benc-uk/workflow-dispatch@v1
@@ -180,7 +182,7 @@ jobs:
           workflow: ${{ secrets.JOIN_WORKFLOW_ID }}
           token: ${{ secrets.OAUTH_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref || github.head_ref }}
-          inputs: '{ "clips_to_encode": "${{env.formated_clips}}", "run_id": "${{ github.event.inputs.run_id }}" }'
+          inputs: '{ "clips_to_encode": "${{env.escaped_clips}}", "run_id": "${{ github.event.inputs.run_id }}" }'
       
       - uses: LouisBrunner/checks-action@v1.1.1
         if: always()
