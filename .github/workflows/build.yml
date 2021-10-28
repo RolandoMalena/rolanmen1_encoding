@@ -10,11 +10,11 @@ on:
       clips_to_encode:
         description: 'JSON string of clips to be encoded. If omitted will use a test clip.'
         required: false
-        default: '["clip1"]'
+        default: '["test"]'
       segments:
-        description: 'JSON string of  the amount of segments to splice and encode each clip. Must be a set of sequential numbers starting from 1. If omitted splice into 15 segments.'
+        description: "JSON string with the amount of segments to splice and encode each clip. Must be a set of sequential numbers starting from 1. If omitted splice into 5 segments. NOTE: Don't use more than 20."
         required: false
-        default: '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]'
+        default: '[1, 2, 3, 4, 5]'
 
 jobs:
   build_apps:
