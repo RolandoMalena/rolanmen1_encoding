@@ -63,15 +63,11 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
           $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
-          Write-Host ::set-env name=HAVE_FILE::true
+          Write-Host ::set-env name=escaped_clips::$clips
 
       - name: Test
         run: |
-          echo '${{github.event.inputs.clips_to_encode}}'
-          echo '$Env:HAVE_FILE'
-          echo "$Env:HAVE_FILE"
-          echo '${{env.HAVE_FILE}}'
-          echo "${{env.HAVE_FILE}}"
+          echo ${{env.escaped_clips}}
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
