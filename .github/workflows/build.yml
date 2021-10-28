@@ -69,8 +69,10 @@ jobs:
       - name: Test
         run: |
           echo '${{github.event.inputs.clips_to_encode}}'
-          echo '${env.HAVE_FILE}'
-          echo "${env.HAVE_FILE}"
+          echo '$Env:HAVE_FILE'
+          echo "$Env:HAVE_FILE"
+          echo '${{env.HAVE_FILE}}'
+          echo "${{env.HAVE_FILE}}"
       
       # - name: 'Dispatch Encode Workflow'
       #   uses: benc-uk/workflow-dispatch@v1
