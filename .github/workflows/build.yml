@@ -61,7 +61,10 @@ jobs:
       - name: Format Clips to Encode Input Parameter
         id: format-step
         shell: bash
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: |
+          $clips = '${{github.event.inputs.clips_to_encode}}'.Replace('"', '\"')
           echo ::set-env name=HAVE_FILE::true
 
       - name: Test
