@@ -1,0 +1,26 @@
+name: Cleanup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  clean:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Download RemoteFileManager Files
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: RemoteFileManagerFiles
+          path: 'RemoteFileManagerFiles'
+          workflow: build.yml
+      
+      - name: Download Google Drive Credentials
+        run: |
+          cd RemoteFileManagerFiles
+          touch credentials.json
+          echo '${{ secrets.GOOGLE_DRIVE_SECRET }}' > credentials.json
+      
+      - name: Delete Files from Google Drive
+        run: |
+          cd RemoteFileManagerFiles
+          RemoteFileManager.dll del "^((?!Footage\/).)*$"
