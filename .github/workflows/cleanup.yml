@@ -2,6 +2,11 @@ name: Cleanup
 
 on:
   workflow_dispatch:
+    inputs:
+      regex:
+        description: 'Regex used to filter in/out files to delete.'
+        required: false
+        default: '^((?!Footage\/).)*$'
 
 jobs:
   clean:
@@ -23,4 +28,4 @@ jobs:
       - name: Delete Files from Google Drive
         run: |
           cd RemoteFileManagerFiles
-          dotnet RemoteFileManager.dll del "^((?!Footage\/).)*$"
+          dotnet RemoteFileManager.dll del "${{github.event.inputs.regex}}"
