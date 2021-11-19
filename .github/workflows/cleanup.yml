@@ -23,4 +23,4 @@ jobs:
       - name: Delete Files from Google Drive
         run: |
           cd RemoteFileManagerFiles
-          RemoteFileManager.dll del "^((?!Footage\/).)*$"
+          dotnet RemoteFileManager.dll del "^((?!Footage\/).)*$"
