@@ -1,0 +1,66 @@
+name: 'Encode All'
+
+on:
+  workflow_dispatch:
+    segments:
+        description: "Number of segments to split all clips, encode in parallel and join at the end. By default will split into 3 segments. NOTE: Don't go over 20."
+        required: false
+        default: 3
+
+jobs:
+  encode_all:
+    runs-on: windows-2019
+    steps:
+      - name: Download RemoteFileManager Files
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: RemoteFileManagerFiles
+          path: 'RemoteFileManagerFiles'
+          workflow: build.yml
+
+      - name: Download Google Drive Credentials
+        run: |
+          cd RemoteFileManagerFiles
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
+      
+      - name: Download Scripts from Google Drive
+        run: |
+          cd RemoteFileManagerFiles
+          ./RemoteFileManager.exe down Scripts Footage *.avs
+      
+      - name: Prepare Input Parameters
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        run: |
+          $filesToExclude = @('Upscale.avs')
+          $files = (Get-ChildItem *.avs).Name
+          $fileNames = New-Object string[] $files.Count
+          $i = 0
+
+          foreach ($file in $files) {
+              if (!$filesToExclude.Contains($file)) {
+                  $fileNames[$i] = $file.Replace(".avs", "")
+              }
+              $i = $i + 1
+          }
+          $fileNames = $fileNames | Where-Object { ![string]::IsNullOrEmpty($_) }
+
+          $segmentCount = 3
+          $segments = New-Object int[] $segmentCount
+
+          for (($i = 0); $i -lt $segmentCount; $i++) {
+              $segments[$i] = $i + 1
+          }
+
+          $fileNamesJson = ('["' + ($fileNames -join '", "') + '"]').Replace('"', '\"')
+          $segmentJson = '[' + ($segments -join ', ') + ']'
+
+          Write-Host ::set-env name=escaped_clips::$fileNamesJson
+          Write-Host ::set-env name=segments::$segmentJson
+
+      - name: 'Dispatch Encode Workflow'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: ${{ secrets.ENCODE_WORKFLOW_ID }}
+          token: ${{ secrets.OAUTH_TOKEN }}
+          inputs: '{ "clips_to_encode": "${{env.escaped_clips}}", "segments": "${{env.segments}}" }'
