@@ -26,7 +26,7 @@ jobs:
       - name: Download Scripts from Google Drive
         run: |
           cd RemoteFileManagerFiles
-          ./RemoteFileManager.exe down Scripts Footage *.avs
+          ./RemoteFileManager.exe down Scripts Footage "*.avs"
       
       - name: Prepare Input Parameters
         env:
