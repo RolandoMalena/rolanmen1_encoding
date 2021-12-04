@@ -2,10 +2,33 @@ name: 'Encode All'
 
 on:
   workflow_dispatch:
+    segments:
+        description: "Number of segments to split all clips, encode in parallel and join at the end. By default will split into 10 segments."
+        required: false
+        default: 10
 
 jobs:
-  build:
+  encode_all:
     runs-on: windows-2019
     steps:
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Download RemoteFileManager Files
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: RemoteFileManagerFiles
+          path: 'RemoteFileManagerFiles'
+          workflow: build.yml
+
+      - name: Download Google Drive Credentials
+        run: |
+          cd RemoteFileManagerFiles
+          New-Item -Path . -Name "credentials.json" -ItemType "file" -Value '${{ secrets.GOOGLE_DRIVE_SECRET }}'
+      
+      - name: Download Scripts from Google Drive
+        run: |
+          cd RemoteFileManagerFiles
+          ./RemoteFileManager.exe down Scripts Footage *.avs
+      
+      - name: Verify Files got Downloaded
+        run: |
+          cd Files
+          ls
